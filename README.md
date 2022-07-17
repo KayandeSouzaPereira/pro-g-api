@@ -1,8 +1,16 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Olá esta é a API do Pro-G.
 
-## Getting Started
+Um pequeno projeto focado em facilitar no meu hobbie atual em musculação. 
 
-First, run the development server:
+A ideia atual e registrar, comparar e compartilhar dados sobre meus treinos e auxiliar outras pessoas com o mesmo objetivo. 
+
+## Parte tecníca 
+
+Sim isso é um projeto em [Next.js](https://nextjs.org/) projeto iniciado com o comando [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+
+## Para iniciar ele e necessário,
+
+primeiro, iniciar o servidor de desenvolvimento:
 
 ```bash
 npm run dev
@@ -10,25 +18,19 @@ npm run dev
 yarn dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+abrir [http://localhost:3000](http://localhost:3000) no seu navegador de preferência para ver o resultado.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+Você pode começar modificando a pagina `pages/index.js`.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+[API routes](https://nextjs.org/docs/api-routes/introduction) podem ser acessadas pelo link [http://localhost:3000/api/**]
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+Os arquivos em `pages/api` são mapeados `/api/*`. [API routes](https://nextjs.org/docs/api-routes/introduction).
 
-## Learn More
+## Saiba mais
 
-To learn more about Next.js, take a look at the following resources:
+Para saber mais sobre Next.js, de uma olhada nas seguintes documentações:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- [Documentação Next.js ](https://nextjs.org/docs) - saiba mais sobre Next.js features e API.
+- [Aprenda Next.js](https://nextjs.org/learn) - tutorial interativo Next.js.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Veja também [O repositorio Next.js no GitHub](https://github.com/vercel/next.js/)
