@@ -59,11 +59,11 @@ export default function handler(req, res) {
   if (req.method === 'GET') {
     const Tk = req.headers['authorization'].substring(7);
     connection.query(
-      'SELECT idAuth FROM `Auth` WHERE token = "'+Tk+'" AND TIMEDIFF(now(), data_token) < "20:00:00"',
+      'SELECT idAuth, user FROM `Auth` WHERE token = "'+Tk+'" AND TIMEDIFF(now(), data_token) < "20:00:00"',
       function(err, results, fields) {
           console.log(err);
           if (results.length > 0){
-             res.status(200).json({retorno: results[0].idAuth})
+             res.status(200).json({retorno: results[0]})
           } else {
             updateIpBrute(ip);
             res.status(403).json({ retorno: "Token Invalido"})
