@@ -12,6 +12,7 @@ export default function handler(req, res) {
         const user = body.usuario;
         const pass = body.password;
         const token = body.token;
+
         
         if(token == undefined){
             if(user==undefined && pass==undefined){
@@ -29,7 +30,7 @@ export default function handler(req, res) {
                                 connection.query(
                                     'update `Auth` set token = "'+tk+'", data_token = "'+dt+'" where user = "'+user+'"',
                                     function(err, results, fields) {
-                                        console.log(err);
+                                        console.log("OK 200");
                                         res.status(200).json({ retorno: "Login Realizado com sucesso",  token: tk})
                                     }
                                   );
