@@ -44,7 +44,7 @@ export default function handler(req, res) {
           });
   }
 
-  const token = req.headers['authorization'].substring(7);
+  const token = req.headers['authorization'];
   console.log(token);
   if (token == undefined ) {
     var ip = req.headers['x-forwarded-for'] ||req.socket.remoteAddress ||null;
@@ -52,7 +52,7 @@ export default function handler(req, res) {
     updateIpBrute(ip);
   }else{
     checkBrute(ip)
-    validaTk(token);
+    validaTk(token.substring(7));
   } 
 
 
@@ -60,13 +60,15 @@ export default function handler(req, res) {
   
   if (req.method === 'POST') {
     const body = req.body;
-    const usuario = body.user;
+    const usuario = body.usuario;
     const altura = body.altura;
     const peso = body.peso;
     const idade = body.idade;
 
+    console.log("USUARIO : " + usuario)
+
     if (  usuario != undefined && altura != undefined && peso != undefined && idade != undefined){
-      connection.query('SELECT * FROM `Info_User` where user = "'+usuario+'"', function(err, results, fields) {
+      connection.query('SELECT * FROM `Info_User` where id_user = "'+usuario+'"', function(err, results, fields) {
         if(results.length === 0){
           connection.query('INSERT INTO `Info_User` (user, Altura, Peso, Idade) VALUES ("'+usuario+'", "'+altura+'", "'+peso+'", "'+idade+'")', 
           function(err, results, fields) {
@@ -78,10 +80,32 @@ export default function handler(req, res) {
             }
           
           });
-        }else{res.status(500).json({ resultado: "Informações já cadastradadas" });}
+        }else{
+          connection.query(
+            'SELECT * FROM `Info_User` where id_user = "'+ usuario + '"',
+            function(err, results, fields) {
+              if (results.length > 0 ){
+                res.status(200).json({ resultado: results })
+              }else{
+                res.status(500).json({ resultado: "informações não encontradadas" })
+              }
+              });
+        }
   });
     } else {
-      res.status(403).json({mensagem: "E necessário mais informações para esta requisição"});
+      if (usuario != undefined) {
+        console.log("check")
+        connection.query(
+          'SELECT * FROM `Info_User` where id_user = "'+ usuario + '"',
+          function(err, results, fields) {
+            if (results.length > 0 ){
+              res.status(200).json({ resultado: results })
+            }else{
+              res.status(500).json({ resultado: "informações não encontradadas" })
+            }
+            });
+      }
+      
     }
 
   }
@@ -90,7 +114,7 @@ export default function handler(req, res) {
     const usuario = body.user;
     if ( training != undefined){
       connection.query(
-        'Delete FROM `Info_User` where user = "'+usuario+'"',
+        'Delete FROM `Info_User` where id_user = "'+usuario+'"',
         function(err, results, fields) {
           if(err === null){
             res.status(200).json({ resultado: "OK" });
@@ -105,23 +129,12 @@ export default function handler(req, res) {
   }
   if (req.method === 'GET') {
     const body = req.body;
-    const usuario = body.user;
-    if (usuario != undefined){
-      connection.query(
-        'SELECT * FROM `Info_User` where user = "'+ usuario + '"',
-        function(err, results, fields) {
-          if (results.length > 0 ){
-            res.status(200).json({ resultado: results })
-          }else{
-            res.status(500).json({ resultado: "informações não encontradadas" })
-          }
-          });
-    }else{
+    
       connection.query(
         'SELECT * FROM `Info_User`',
         function(err, results, fields) {
           res.status(200).json({ resultado: results })});
-    }
+    
   }
 
 

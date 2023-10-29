@@ -18,25 +18,21 @@ export default function handler(req, res) {
               res.status(403).json({ retorno: "Token Invalido"})
             }
         });
-}
-
+  }
   function checkBrute(ip){
-    
     let query = 'SELECT tentativas FROM `brute_force` WHERE ip = "'+ip+'"';
-    
     connection.query(query,
     function(err, results, fields) {
-        
         if(results[0]){
             if(results[0].tentativas > 20){
               res.status(403).json({ Alerta: "IP BLOQUEADO" });
           }else{
               return false;
-          }}
+          }
+        }
       }
     )
   }
-
   function updateIpBrute(ip){
       connection.query(
           'SELECT tentativas FROM `brute_force` WHERE ip = "'+ip+'"',
@@ -50,7 +46,7 @@ export default function handler(req, res) {
           });
   }
 
-  const token = req.headers['authorization'].substring(7);
+  const token = req.headers['authorization'];
   console.log(token);
   if (token == undefined ) {
     var ip = req.headers['x-forwarded-for'] ||req.socket.remoteAddress ||null;
@@ -58,7 +54,7 @@ export default function handler(req, res) {
     updateIpBrute(ip);
   }else{
     checkBrute(ip)
-    validaTk(token);
+    validaTk(token.substring(7));
   } 
 
 

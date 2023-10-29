@@ -45,7 +45,7 @@ export default function handler(req, res) {
           });
   }
 
-  const token = req.headers['authorization'].substring(7);
+  const token = req.headers['authorization'];
   console.log(token);
   if (token == undefined ) {
     var ip = req.headers['x-forwarded-for'] ||req.socket.remoteAddress ||null;
@@ -53,7 +53,7 @@ export default function handler(req, res) {
     updateIpBrute(ip);
   }else{
     checkBrute(ip)
-    validaTk(token);
+    validaTk(token.substring(7));
   } 
 
   if (req.method === 'POST') {

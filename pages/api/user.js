@@ -44,7 +44,7 @@ export default function handler(req, res) {
           });
   }
 
-  const token = req.headers['authorization'].substring(7);
+  const token = req.headers['authorization'];
   console.log(token);
   if (token == undefined ) {
     var ip = req.headers['x-forwarded-for'] ||req.socket.remoteAddress ||null;
@@ -52,17 +52,17 @@ export default function handler(req, res) {
     updateIpBrute(ip);
   }else{
     checkBrute(ip)
-    validaTk(token);
+    validaTk(token.substring(7));
   } 
 
 
   if (req.method === 'POST') {
     const body = req.body;
-    const user = body.usuario;
-    if (  user != undefined ){
-      connection.query('SELECT * FROM `User` where UserNm = "'+user+'"', function(err, results, fields) {
+    const usuario = body.usuario;
+    if (  usuario != undefined ){
+      connection.query('SELECT * FROM `User` where UserNm = "'+usuario+'"', function(err, results, fields) {
         if(results.length === 0){
-          connection.query('INSERT INTO `User` (UserNm) VALUES ("'+user+'")', 
+          connection.query('INSERT INTO `User` (UserNm) VALUES ("'+usuario+'")', 
           function(err, results, fields) {
             if(err === null){
               res.status(200).json({ resultado: "OK" });
@@ -72,7 +72,15 @@ export default function handler(req, res) {
             }
           
           });
-        }else{res.status(500).json({ resultado: "Usuário já cadastrado" });}
+        }else{connection.query(
+          'SELECT * FROM `User` where userNm = "'+ usuario + '"',
+          function(err, results, fields) {
+            if (results.length > 0 ){
+              res.status(200).json({ resultado: results })
+            }else{
+              res.status(500).json({ resultado: "usuario não encontrado" })
+            }
+            });}
   });
     } else {
       res.status(403).json({mensagem: "E necessário mais informações para esta requisição"});
@@ -81,10 +89,10 @@ export default function handler(req, res) {
   }
   if (req.method === 'DELETE') {
     const body = req.body;
-    const user = body.usuario;
-    if ( user !=  undefined){
+    const usuario = body.usuario;
+    if ( usuario !=  undefined){
       connection.query(
-        'Delete FROM `User` where UserNm ="' + user + '"',
+        'Delete FROM `User` where UserNm ="' + usuario + '"',
         function(err, results, fields) {
           if(err === undefined){
             res.status(200).json({ resultado: "OK" });
@@ -99,10 +107,10 @@ export default function handler(req, res) {
   }
   if (req.method === 'GET') {
     const body = req.body;
-    const user = body.usuario;
-    if (user != undefined){
+    const usuario = body.usuario;
+    if (usuario != undefined){
       connection.query(
-        'SELECT * FROM `User` where userNm = "'+ user + '"',
+        'SELECT * FROM `User` where userNm = "'+ usuario + '"',
         function(err, results, fields) {
           if (results.length > 0 ){
             res.status(200).json({ resultado: results })
