@@ -63,7 +63,7 @@ export default function handler(req, res) {
       function(err, results, fields) {
           console.log(err);
           if (results.length > 0){
-             res.status(200).json({retorno: results})
+             res.status(200).json({retorno: results[0].idAuth})
           } else {
             updateIpBrute(ip);
             res.status(403).json({ retorno: "Token Invalido"})
