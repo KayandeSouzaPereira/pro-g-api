@@ -3,9 +3,6 @@ const connect = process.env.DB_CONNECTION;
 const connection = mysql.createConnection(connect);
 
 
-
-//
-
 export default function handler(req, res) {
     if (req.method === 'POST') {
         const body = req.body;

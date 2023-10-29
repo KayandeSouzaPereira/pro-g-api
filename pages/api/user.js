@@ -4,18 +4,56 @@ const connection = mysql.createConnection(connect);
 
 export default function handler(req, res) {
 
+  function validaTk(Tk, ip){
+    connection.query(
+        'SELECT * FROM `Auth` WHERE token = "'+token+'" AND user = "'+user+'" AND TIMEDIFF(now(), data_token) < "20:00:00"',
+        function(err, results, fields) {
+            console.log(err);
+            if (results.length > 0){
+                res.status(200).json({ retorno: "Token Confirmado com sucesso"})
+            } else {
+                
+            }
+        });
+}
+
+ function checkBrute(ip){
+    connection.query('SELECT * FROM `brute_force` WHERE ip = "'+ip+'" and tentativas > '+20+'',
+    function(err, results, fields) {
+        if(results > 0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    )
+}
+
+function updateIpBrute(ip){
+    connection.query(
+        'SELECT tentativas FROM `brute_force` WHERE ip = "'+ip+'"',
+        function(err, results, fields) {
+            console.log(results);
+            if (results.length > 0){
+                let nValue = result + 1;
+                connection.query('Update `brute_force` set tentativas='+ nValue + ' where ip = "' +ip+'"');
+            } else {
+                connection.query('INSERT into `brute_force` (ip, tentativas) values ("'+ip+'", '+1+')')
+            }
+        });
+}
+
   const token = req.headers['authorization'];
-
-
   if (token == undefined ) {
-    console.log("TESTE");
     var ip = req.headers['x-forwarded-for'] ||req.socket.remoteAddress ||null;
-    Util.checkBrute(ip);
+    checkBrute(ip);
     res.status(403).json({ Alerta: "Acesso Invalido" });
     
 
   }else{
-    console.log("TESTE");
+    var ip = req.headers['x-forwarded-for'] ||req.socket.remoteAddress ||null;
+    checkBrute(ip);
+    res.status(403).json({ Alerta: "Acesso Invalido" });
   }
 
 
