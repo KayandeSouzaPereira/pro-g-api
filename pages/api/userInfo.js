@@ -3,6 +3,21 @@ const connect = process.env.DB_CONNECTION;
 const connection = mysql.createConnection(connect);
 
 export default function handler(req, res) {
+
+  const token = req.headers['authorization'];
+
+
+  if (token == undefined ) {
+    console.log("TESTE");
+    var ip = req.headers['x-forwarded-for'] ||req.socket.remoteAddress ||null;
+    Util.checkBrute(ip);
+    res.status(403).json({ Alerta: "Acesso Invalido" });
+   
+
+  }else{
+    console.log("TESTE");
+  }
+
   
   if (req.method === 'POST') {
     const body = req.body;

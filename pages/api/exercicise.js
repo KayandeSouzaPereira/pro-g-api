@@ -1,14 +1,33 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 const mysql = require('mysql2');
 const connection = mysql.createConnection(process.env.DB_CONNECTION)
+const Util = require("../util/index")
 
 export default function handler(req, res) {
+
+  const token = req.headers['authorization'];
+
+
+  if (token == undefined ) {
+    console.log("TESTE");
+    var ip = req.headers['x-forwarded-for'] ||req.socket.remoteAddress ||null;
+    Util.checkBrute(ip);
+    res.status(403).json({ Alerta: "Acesso Invalido" });
+    
+
+  }else{
+    console.log("TESTE");
+  }
+
+
   if (req.method === 'POST') {
     const body = req.body;
     const exercicio = body.exercicie;
     const descricao = body.descricao;
     const link = body.link;
     const treino = body.treino;
+
+   
 
     if (  exercicio != undefined && descricao != undefined){
       connection.query('SELECT * FROM `Exercicios` where nm_exercicios = "'+exercicio+'"', function(err, results, fields) {
