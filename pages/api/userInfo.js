@@ -65,11 +65,13 @@ export default function handler(req, res) {
     const peso = body.peso;
     const idade = body.idade;
 
-    console.log("USUARIO : " + usuario)
-
+   
     if (  usuario != undefined && altura != undefined && peso != undefined && idade != undefined){
+      
       connection.query('SELECT * FROM `Info_User` where id_user = "'+usuario+'"', function(err, results, fields) {
+        console.log(results);
         if(results.length === 0){
+          
           connection.query('INSERT INTO `Info_User` (user, Altura, Peso, Idade) VALUES ("'+usuario+'", "'+altura+'", "'+peso+'", "'+idade+'")', 
           function(err, results, fields) {
             if(err === null){
@@ -81,15 +83,16 @@ export default function handler(req, res) {
           
           });
         }else{
-          connection.query(
-            'SELECT * FROM `Info_User` where id_user = "'+ usuario + '"',
-            function(err, results, fields) {
-              if (results.length > 0 ){
-                res.status(200).json({ resultado: results })
-              }else{
-                res.status(500).json({ resultado: "informações não encontradadas" })
-              }
-              });
+          connection.query('update `Info_User` set Altura = "'+altura+'", Peso = '+peso+', Idade = '+idade+' WHERE id_user = '+usuario+'', 
+          function(err, results, fields) {
+            if(err === null){
+              res.status(200).json({ resultado: "OK" });
+            }
+            else{
+              res.status(500).json({ resultado: err });
+            }
+          
+          });
         }
   });
     } else {
