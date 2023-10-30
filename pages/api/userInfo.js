@@ -72,7 +72,7 @@ export default function handler(req, res) {
         console.log(results);
         if(results.length === 0){
           
-          connection.query('INSERT INTO `Info_User` (user, Altura, Peso, Idade) VALUES ("'+usuario+'", "'+altura+'", "'+peso+'", "'+idade+'")', 
+          connection.query('INSERT INTO `Info_User` (id_user, Altura, Peso, Idade) VALUES ("'+usuario+'", "'+altura+'", "'+peso+'", "'+idade+'")', 
           function(err, results, fields) {
             if(err === null){
               res.status(200).json({ resultado: "OK" });
