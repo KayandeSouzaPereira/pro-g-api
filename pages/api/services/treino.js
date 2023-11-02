@@ -72,12 +72,14 @@ exports.registerTraining = (req, res) => {
   const erro = undefined;
 
   console.log("TREINO : ")
-  console.log(treino === undefined );
+  console.log(treino == undefined );
 
-  if (idUser != undefined && treino === undefined){
-    console.log("LISTA")
+  if (idUser != undefined && treino == undefined){
     connection.query('SELECT * FROM `Treinos` where id_user = "'+idUser+'"', function(err, results, fields){
+      console.log("LISTA")
+      console.log(results)
       if(results.length > 0){
+        
         res.status(200).json({ resultado: results });
       }
     })

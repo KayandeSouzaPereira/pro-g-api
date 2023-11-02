@@ -15,9 +15,11 @@ export default function handler(req, res) {
   }
   if (req.method === 'GET') {
     service.listTrainingsByNm(req, res);
-    }else{
+  }else if(req.method === 'GET' && req.body == undefined){
       service.listAllTrainings(res);
-    }
+  }else{
+    res.status(200).json({ resultado: "Vazio" });
+  }
 }
 
 
