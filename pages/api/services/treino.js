@@ -11,7 +11,17 @@ exports.listAllTrainings = (res) => {
 exports.listTrainingsByNm = (req, res) => {
   const body = req.body;
   const treino = body.treino;
-  if (treino != undefined){
+  const usuario = body.usuario;
+
+  if (treino != undefined && usuario == undefined){
+    getTrainingByNm(treino)
+  }else if (treino == undefined && usuario != undefined){
+    getTrainingByUsuario(usuario)
+  }else{
+    res.status(500).json({ resultado: "treino não encontrado, por falta de dados." })
+  }
+
+  function getTrainingByNm(treino){
     connection.query(
       'SELECT * FROM `Treinos` where nm_treinos = "'+ treino + '"',
       function(err, results, fields) {
@@ -20,7 +30,20 @@ exports.listTrainingsByNm = (req, res) => {
         }else{
           res.status(500).json({ resultado: "treino não encontrado" })
         }
-  });}
+  });
+  }
+
+  function getTrainingByUsuario(usuario){
+    connection.query(
+      'SELECT * FROM `Treinos` where id_user = "'+ usuario + '"',
+      function(err, results, fields) {
+        if (results.length > 0 ){
+          res.status(200).json({ resultado: results })
+        }else{
+          res.status(500).json({ resultado: "treino não encontrado" })
+        }
+  });
+  }
 }
 exports.trainingExclude = (req, res) => {
   const body = req.body;
@@ -45,11 +68,16 @@ exports.registerTraining = (req, res) => {
   const treino = body.treino;
   const descricao = body.descricao;
   const idUser = body.usuario;
-  console.log(idUser)
+
+  
 
   if (idUser != undefined ){
+    
     connection.query('SELECT * FROM `Treinos` where id_user = "'+idUser+'"', function(err, results, fields){
+      if(results.length > 0){
+        console.log(results);
         res.status(200).json({ resultado: results });
+      }
     })
   }
 
@@ -69,9 +97,7 @@ exports.registerTraining = (req, res) => {
       }else{
         res.status(500).json({ resultado: "Treino já cadastrado" });
       }
-});
-  } else {
-    res.status(403).json({mensagem: "E necessário mais informações para esta requisição"});
-  }
+    });
+  } 
 
 } 
