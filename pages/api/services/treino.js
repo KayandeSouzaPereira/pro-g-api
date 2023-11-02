@@ -14,11 +14,11 @@ exports.listTrainingsByNm = (req, res) => {
   const usuario = body.usuario;
 
   if (treino != undefined && usuario == undefined){
-    getTrainingByNm(treino)
+    return getTrainingByNm(treino)
   }else if (treino == undefined && usuario != undefined){
-    getTrainingByUsuario(usuario)
+    return getTrainingByUsuario(usuario)
   }else{
-    res.status(500).json({ resultado: "treino não encontrado, por falta de dados." })
+    return res.status(500).json({ resultado: "treino não encontrado, por falta de dados." })
   }
 
   function getTrainingByNm(treino){
@@ -26,9 +26,9 @@ exports.listTrainingsByNm = (req, res) => {
       'SELECT * FROM `Treinos` where nm_treinos = "'+ treino + '"',
       function(err, results, fields) {
         if (results.length > 0 ){
-          res.status(200).json({ resultado: results })
+          return res.status(200).json({ resultado: results })
         }else{
-          res.status(500).json({ resultado: "treino não encontrado" })
+          return res.status(500).json({ resultado: "treino não encontrado" })
         }
   });
   }
@@ -38,9 +38,9 @@ exports.listTrainingsByNm = (req, res) => {
       'SELECT * FROM `Treinos` where id_user = "'+ usuario + '"',
       function(err, results, fields) {
         if (results.length > 0 ){
-          res.status(200).json({ resultado: results })
+          return res.status(200).json({ resultado: results })
         }else{
-          res.status(500).json({ resultado: "treino não encontrado" })
+          return res.status(500).json({ resultado: "treino não encontrado" })
         }
   });
   }
@@ -53,14 +53,14 @@ exports.trainingExclude = (req, res) => {
       'Delete FROM `Treinos` where nm_treinos = "'+treino+'"',
       function(err, results, fields) {
         if(err === null){
-          res.status(200).json({ resultado: "OK" });
+          return res.status(200).json({ resultado: "OK" });
         }
         else{
-          res.status(500).json({ resultado: err });
+          return res.status(500).json({ resultado: err });
         }
       });
   } else {
-    res.status(403).json({mensagem: "E necessário mais informações para esta requisição"});
+    return res.status(403).json({mensagem: "E necessário mais informações para esta requisição"});
   }
 }
 exports.registerTraining = (req, res) => {
@@ -80,27 +80,30 @@ exports.registerTraining = (req, res) => {
       console.log(results)
       if(results.length > 0){
         
-        res.status(200).json({ resultado: results });
+        return res.status(200).json({ resultado: results });
       }
     })
   }
 
   if (treino != undefined && descricao != undefined && idUser != undefined){
-    connection.query('SELECT * FROM `Treinos` where nm_treinos = "'+treino+'"', function(err, results, fields) {
+    connection.query('SELECT * FROM `Treinos` where nm_treinos = "'+treino+'" and id_user ="'+idUser+'"', function(err, results, fields) {
+      console.log(results)
       if(results == undefined || results.length == 0){
         connection.query('INSERT INTO `Treinos` (nm_treinos, ds_treinos, id_user) VALUES ("'+treino+'", "' + descricao + '", ' + idUser + ')', 
         function(err, results, fields) {
+          console.log(results)
           if(err == undefined){
-            res.status(200).json({ resultado: "OK" });
+            console.log("INSERT")
+            return res.status(200).json({ resultado: "OK" });
           }
           else{
             console.log(err);
-            res.status(500).json({ resultado: err });
+            return res.status(500).json({ resultado: err });
           }
         
         });
-      }else if(results != undefined && erro != undefined){
-        res.status(500).json({ resultado: "Treino já cadastrado" });
+      }else if(results != undefined || results.length != 0){
+        return res.status(500).json({ resultado: "Treino já cadastrado" });
       }
     });
   } 

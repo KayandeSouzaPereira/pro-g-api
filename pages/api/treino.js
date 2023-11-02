@@ -8,17 +8,15 @@ export default function handler(req, res) {
   security.checkSec(req, res);
 
   if (req.method === 'POST') {
-    service.registerTraining(req, res);
+    return service.registerTraining(req, res);
   }
   if (req.method === 'DELETE') {
-    service.trainingExclude(req, res);
+    return service.trainingExclude(req, res);
   }
   if (req.method === 'GET') {
-    service.listTrainingsByNm(req, res);
+    return service.listTrainingsByNm(req, res);
   }else if(req.method === 'GET' && req.body == undefined){
-      service.listAllTrainings(res);
-  }else{
-    res.status(200).json({ resultado: "Vazio" });
+      return service.listAllTrainings(res);
   }
 }
 
