@@ -71,10 +71,11 @@ exports.registerTraining = (req, res) => {
 
   const erro = undefined;
 
-  console.log("TREINO : " + treino);
+  console.log("TREINO : ")
+  console.log(treino === undefined );
 
-  if (idUser != undefined && treino == undefined){
-    console.log("LISTA");
+  if (idUser != undefined && treino === undefined){
+    console.log("LISTA")
     connection.query('SELECT * FROM `Treinos` where id_user = "'+idUser+'"', function(err, results, fields){
       if(results.length > 0){
         res.status(200).json({ resultado: results });
@@ -84,11 +85,10 @@ exports.registerTraining = (req, res) => {
 
   if (treino != undefined && descricao != undefined && idUser != undefined){
     connection.query('SELECT * FROM `Treinos` where nm_treinos = "'+treino+'"', function(err, results, fields) {
-      if(results == undefined){
-        connection.query('INSERT INTO `Treinos` (nm_treinos, ds_treinos, id_user) VALUES ("'+treino+'", "' + descricao + '", ' + idUser + ')"', 
+      if(results == undefined || results.length == 0){
+        connection.query('INSERT INTO `Treinos` (nm_treinos, ds_treinos, id_user) VALUES ("'+treino+'", "' + descricao + '", ' + idUser + ')', 
         function(err, results, fields) {
-          if(err == null){
-            console.log("INSERCAO");
+          if(err == undefined){
             res.status(200).json({ resultado: "OK" });
           }
           else{
