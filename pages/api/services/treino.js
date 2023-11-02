@@ -90,7 +90,6 @@ exports.registerTraining = (req, res) => {
         function(err, results, fields) {
           console.log(results)
           if(err == undefined){
-            console.log("INSERT")
             return res.status(200).json({ resultado: "OK" });
           }
           else{
@@ -124,10 +123,7 @@ exports.registerTraining = (req, res) => {
     connection.query('SELECT * FROM `Treinos` where id_user = "'+idUser+'"', function(err, results, fields){
       console.log("LISTA")
       console.log(results)
-      if(results.length > 0){
-        
         return res.status(200).json({ resultado: results });
-      }
     })
   }
 
