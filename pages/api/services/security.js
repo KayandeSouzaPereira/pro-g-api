@@ -9,7 +9,7 @@ exports.checkSec = (req, res) => {
             'SELECT * FROM `Auth` WHERE token = "'+Tk+'" AND TIMEDIFF(now(), data_token) < "20:00:00"',
             function(err, results, fields) {
                 console.log(err);
-                if (results.length > 0){
+                if (results != undefined){
                     return true;
                 } else {
                   updateIpBrute(ip);
@@ -21,7 +21,7 @@ exports.checkSec = (req, res) => {
         let query = 'SELECT tentativas FROM `brute_force` WHERE ip = "'+ip+'"';
         connection.query(query,
         function(err, results, fields) {
-            if(results[0]){
+            if(results != undefined){
                 if(results[0].tentativas > 20){
                   res.status(403).json({ Alerta: "IP BLOQUEADO" });
               }else{
@@ -35,7 +35,7 @@ exports.checkSec = (req, res) => {
           connection.query(
               'SELECT tentativas FROM `brute_force` WHERE ip = "'+ip+'"',
               function(err, results, fields) {
-                  if (results.length > 0){
+                  if (results != undefined){
                       let nValue = results[0].tentativas + 1;
                       connection.query('Update `brute_force` set tentativas='+ nValue + ' where ip = "' +ip+'"');
                   } else {

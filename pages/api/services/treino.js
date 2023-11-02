@@ -69,32 +69,35 @@ exports.registerTraining = (req, res) => {
   const descricao = body.descricao;
   const idUser = body.usuario;
 
-  
+  const erro = undefined;
 
-  if (idUser != undefined ){
-    
+  console.log("TREINO : " + treino);
+
+  if (idUser != undefined && treino == undefined){
+    console.log("LISTA");
     connection.query('SELECT * FROM `Treinos` where id_user = "'+idUser+'"', function(err, results, fields){
       if(results.length > 0){
-        console.log(results);
         res.status(200).json({ resultado: results });
       }
     })
   }
 
-  if (  treino != undefined && descricao != undefined && idUser == undefined){
+  if (treino != undefined && descricao != undefined && idUser != undefined){
     connection.query('SELECT * FROM `Treinos` where nm_treinos = "'+treino+'"', function(err, results, fields) {
-      if(results.length === 0){
-        connection.query('INSERT INTO `Treinos` (nm_treinos, ds_treinos) VALUES ("'+treino+'", "' + descricao + '")', 
+      if(results == undefined){
+        connection.query('INSERT INTO `Treinos` (nm_treinos, ds_treinos, id_user) VALUES ("'+treino+'", "' + descricao + '", ' + idUser + ')"', 
         function(err, results, fields) {
-          if(err === null){
+          if(err == null){
+            console.log("INSERCAO");
             res.status(200).json({ resultado: "OK" });
           }
           else{
+            console.log(err);
             res.status(500).json({ resultado: err });
           }
         
         });
-      }else{
+      }else if(results != undefined && erro != undefined){
         res.status(500).json({ resultado: "Treino já cadastrado" });
       }
     });
