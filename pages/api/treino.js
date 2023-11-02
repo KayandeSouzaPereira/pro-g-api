@@ -1,20 +1,23 @@
+
 const security = require('./services/security');
-const service = require('./services/user');
+const service = require('./services/treino');
+
 
 export default function handler(req, res) {
 
   security.checkSec(req, res);
 
   if (req.method === 'POST') {
-    service.userRegister(req, res);
+    service.registerTraining(req, res);
   }
   if (req.method === 'DELETE') {
-    service.userDelete(req, res);
+    service.trainingExclude(req, res);
   }
   if (req.method === 'GET') {
-    service.userListByNm(req, res);
-  }else{
-    service.userListAll(res);
-  }
+    service.listTrainingsByNm(req, res);
+    }else{
+      service.listAllTrainings(res);
+    }
 }
+
 

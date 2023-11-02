@@ -1,20 +1,21 @@
 const security = require('./services/security');
-const service = require('./services/user');
+const service = require("./services/exercise");
 
 export default function handler(req, res) {
 
   security.checkSec(req, res);
+ 
 
   if (req.method === 'POST') {
-    service.userRegister(req, res);
+    service.exerciseRegister(req, res);
   }
   if (req.method === 'DELETE') {
-    service.userDelete(req, res);
+    service.exerciseExclude(req, res);
   }
   if (req.method === 'GET') {
-    service.userListByNm(req, res);
+    service.exerciseListByNm(req, res);
   }else{
-    service.userListAll(res);
+    service.exerciseListAll(res);
   }
 }
 
