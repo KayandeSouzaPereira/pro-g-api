@@ -68,21 +68,18 @@ exports.registerTraining = (req, res) => {
   const treino = body.treino;
   const descricao = body.descricao;
   const idUser = body.usuario;
+  const idTreino = body.idTreino;
 
-  const erro = undefined;
 
   console.log("TREINO : ")
   console.log(treino == undefined );
 
+  if (idTreino != undefined){
+    return updateTreino(req, res);
+  }
+
   if (idUser != undefined && treino == undefined){
-    connection.query('SELECT * FROM `Treinos` where id_user = "'+idUser+'"', function(err, results, fields){
-      console.log("LISTA")
-      console.log(results)
-      if(results.length > 0){
-        
-        return res.status(200).json({ resultado: results });
-      }
-    })
+    return listaTreinosUsuario(idUser);
   }
 
   if (treino != undefined && descricao != undefined && idUser != undefined){
@@ -107,5 +104,31 @@ exports.registerTraining = (req, res) => {
       }
     });
   } 
+
+  function updateTreino(req, res){
+
+    const body = req.body;
+    const treino = body.treino;
+    const descricao = body.descricao;
+    const idTreino = body.idTreino;
+
+    connection.query('UPDATE `Treinos` set nm_treinos = "'+ treino + '", ds_treinos = "' + descricao + '" WHERE idTreinos = ' + idTreino, function(err, results, fields) { 
+      return res.status(200).json({ resultado: "OK" });
+    });
+
+
+
+  }
+
+  function listaTreinosUsuario(idUser){
+    connection.query('SELECT * FROM `Treinos` where id_user = "'+idUser+'"', function(err, results, fields){
+      console.log("LISTA")
+      console.log(results)
+      if(results.length > 0){
+        
+        return res.status(200).json({ resultado: results });
+      }
+    })
+  }
 
 } 
