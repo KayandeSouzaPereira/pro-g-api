@@ -16,7 +16,7 @@ export default function handler(req, res) {
   if (req.method === 'GET') {
     return service.listTrainingsByNm(req, res);
   }else if(req.method === 'GET' && req.body == undefined){
-      return service.listAllTrainings(res);
+    return service.listAllTrainings(res);
   }
 }
 
