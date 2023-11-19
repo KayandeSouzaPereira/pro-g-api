@@ -13,7 +13,15 @@ export default function handler(req, res) {
     service.exerciseExclude(req, res);
   }
   if (req.method === 'GET') {
-    service.exerciseListByNm(req, res);
+    const body = req.query;
+    const idTraining = body.idTraining;
+    if(idTraining != undefined){
+      service.exerciseListByIdTraining(req, res);
+    }
+    else{
+      service.exerciseListByNm(req, res);
+    }
+    
   }else{
     service.exerciseListAll(res);
   }
