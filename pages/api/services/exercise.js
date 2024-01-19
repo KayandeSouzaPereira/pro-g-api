@@ -69,24 +69,39 @@ exports.exerciseRegister = (req, res) => {
     const descricao = body.descricao;
     const link = body.link;
     const treino = body.treino;
+    const id = body.id_exercicio;
 
-    if (  exercicio != undefined && descricao != undefined){
-        if (!exerciseExist(treino)){
+    if (  exercicio != undefined && descricao != undefined && treino != undefined){
+        if (!exerciseExist(id)){
           insertExercise(exercicio, descricao, link, treino)
-        }else{res.status(500).json({ resultado: "Exercício já cadastrado" });}
+        }else{
+          res.status(500).json({ resultado: "Exercício já cadastrado" });
+        }
 
     } else {
       res.status(403).json({mensagem: "E necessário mais informações para esta requisição"});
     }
 
-    function exerciseExist(name) {
-        connection.query('SELECT * FROM `Exercicios` where nm_exercicios = "'+name+'"', function(err, results, fields) {
+    function exerciseExist(id) {
+        connection.query('SELECT * FROM `Exercicios` where idExercicios = "'+id+'"', function(err, results, fields) {
             if(results.length === 0){
                 return true;
             }else{
                 return false
             }});
     }
+
+    function updateExercise(exercicio, descricao, link, treino, id) {
+      connection.query('update `Exercicios` set nm_exercicios = "'+exercicio+'" ds_exercicio = "'+descricao+'" link_execicio + "'+link+'" where idExercicios ='+id, 
+        function(err, results, fields) {
+          if(err === null){
+              res.status(200).json({ resultado: "Exercício inserido sem treino" });
+          }
+          else{
+            res.status(500).json({ erro: "Ocorreu um erro no serviço" });
+          }
+        });
+  }
 
     function insertExercise(exercicio, descricao, link, treino) {
         connection.query('INSERT INTO `Exercicios` (nm_exercicios, ds_exercicio, link_execicio) VALUES ("'+exercicio+'", "' + descricao + '","' + link + '")', 
