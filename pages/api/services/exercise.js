@@ -28,7 +28,6 @@ exports.exerciseListByNm = (req, res) => {
 }
 
 exports.exerciseListByIdTraining = (req, res) => {
-  console.log("TESTE")
   const body = req.query;
   const idTraining = body.idTraining;
   if (idTraining != undefined){
@@ -65,20 +64,23 @@ exports.exerciseExclude = (req, res) => {
 
 exports.exerciseRegister = (req, res) => {
     const body = req.body;
-    const exercicio = body.exercicie;
+    const exercicio = body.exercicio;
     const descricao = body.descricao;
     const link = body.link;
     const treino = body.treino;
     const id = body.id_exercicio;
 
-    if (  exercicio != undefined && descricao != undefined && treino != undefined){
-        if (!exerciseExist(id)){
+    if (exercicio != undefined && descricao != undefined && treino != undefined){
+        if (exerciseExist(id) == false){
+          console.log("INSERT")
           insertExercise(exercicio, descricao, link, treino)
         }else{
+          console.log("UPDATE")
           updateExercise(exercicio, descricao, link, id);
         }
 
-    } else {
+    } else if (exercicio === undefined && descricao === undefined && treino === undefined) {
+     c
       res.status(403).json({mensagem: "E necessário mais informações para esta requisição"});
     }
 
@@ -91,11 +93,12 @@ exports.exerciseRegister = (req, res) => {
             }});
     }
 
-    function updateExercise(exercicio, descricao, link, treino, id) {
-      connection.query('update `Exercicios` set nm_exercicios = "'+exercicio+'" ds_exercicio = "'+descricao+'" link_execicio + "'+link+'" where idExercicios ='+id, 
+    function updateExercise(exercicio, descricao, link, id) {
+      connection.query('update `Exercicios` set nm_exercicios = "'+exercicio+'", ds_exercicio = "'+descricao+'", link_exercicio = + "'+link+'" where idExercicios ='+id, 
         function(err, results, fields) {
           if(err === null){
-              res.status(200).json({ resultado: "Exercício inserido sem treino" });
+            console.log("Ok")
+              res.status(200).json({ resultado: "Exercício inserido com treino" });
           }
           else{
             res.status(500).json({ erro: "Ocorreu um erro no serviço" });
@@ -104,7 +107,7 @@ exports.exerciseRegister = (req, res) => {
   }
 
     function insertExercise(exercicio, descricao, link, treino) {
-        connection.query('INSERT INTO `Exercicios` (nm_exercicios, ds_exercicio, link_execicio) VALUES ("'+exercicio+'", "' + descricao + '","' + link + '")', 
+        connection.query('INSERT INTO `Exercicios` (nm_exercicios, ds_exercicio, link_exercicio) VALUES ("'+exercicio+'", "' + descricao + '","' + link + '")', 
           function(err, results, fields) {
             if(err === null){
               if(treino != undefined){
