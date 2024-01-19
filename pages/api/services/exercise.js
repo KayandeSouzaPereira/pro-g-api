@@ -75,7 +75,7 @@ exports.exerciseRegister = (req, res) => {
         if (!exerciseExist(id)){
           insertExercise(exercicio, descricao, link, treino)
         }else{
-          res.status(500).json({ resultado: "Exercício já cadastrado" });
+          updateExercise(exercicio, descricao, link, id);
         }
 
     } else {
