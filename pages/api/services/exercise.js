@@ -68,24 +68,25 @@ exports.exerciseRegister = (req, res) => {
     const descricao = body.descricao;
     const link = body.link;
     const treino = body.treino;
-    const id = body.id_exercicio;
+    const id = parseInt(body.id_exercicio);
 
     if (exercicio != undefined && descricao != undefined && treino != undefined){
-        if (exerciseExist(id) == false){
-          console.log("INSERT")
+        console.log('SELECT * FROM `Exercicios` where idExercicios = '+id)
+        const exist = exerciseExist(id);
+        console.log("existe no banco : " + exist);
+        if ( exist != false){
           insertExercise(exercicio, descricao, link, treino)
-        }else{
+        }else if(exist === false){
           console.log("UPDATE")
           updateExercise(exercicio, descricao, link, id);
         }
 
     } else if (exercicio === undefined && descricao === undefined && treino === undefined) {
-     c
       res.status(403).json({mensagem: "E necessário mais informações para esta requisição"});
     }
 
     function exerciseExist(id) {
-        connection.query('SELECT * FROM `Exercicios` where idExercicios = "'+id+'"', function(err, results, fields) {
+        connection.query('SELECT * FROM `Exercicios` where idExercicios = '+id, function(err, results, fields) {
             if(results.length === 0){
                 return true;
             }else{
