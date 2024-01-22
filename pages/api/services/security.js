@@ -3,7 +3,7 @@ const connect = process.env.DB_CONNECTION;
 const connection = mysql.createConnection(connect);
 
 
-exports.checkSec = (req, res) => {
+exports.checkSec = (req, res, isAuth) => {
     function validaTk(Tk, ip){
         connection.query(
             'SELECT * FROM `Auth` WHERE token = "'+Tk+'" AND TIMEDIFF(now(), data_token) < "20:00:00"',
@@ -52,7 +52,10 @@ exports.checkSec = (req, res) => {
         var ip = req.headers['x-forwarded-for'] ||req.socket.remoteAddress ||null;
         checkBrute(ip)
         updateIpBrute(ip);
-        return res.status(403).json({ retorno: "Token não encontrado"})
+        if (isAuth === undefined){
+          return res.status(403).json({ retorno: "Token não encontrado"})
+        }
+        
       }else{
         checkBrute(ip)
         validaTk(token.substring(7), ip);

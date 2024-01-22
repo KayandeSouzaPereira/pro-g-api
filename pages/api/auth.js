@@ -2,7 +2,7 @@ const service = require('./services/auth');
 const security = require('./services/security');
 
 export default function handler(req, res) {
-        security.checkSec(req, res);
+        security.checkSec(req, res, true);
         
         if (req.method === 'POST') {
                 const body = req.body;
