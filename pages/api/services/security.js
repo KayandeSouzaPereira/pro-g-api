@@ -12,7 +12,7 @@ exports.checkSec = (req, res) => {
                     return true;
                 } else {
                   updateIpBrute(ip);
-                  res.status(403).json({ retorno: "Token Invalido"})
+                  return res.status(403).json({ retorno: "Token Invalido"})
                 }
             });
       }
@@ -22,7 +22,7 @@ exports.checkSec = (req, res) => {
         function(err, results, fields) {
             if(results != undefined){
                 if(results[0].tentativas > 20){
-                  res.status(403).json({ Alerta: "IP BLOQUEADO" });
+                  return res.status(403).json({ Alerta: "IP BLOQUEADO" });
               }else{
                   return false;
               }
