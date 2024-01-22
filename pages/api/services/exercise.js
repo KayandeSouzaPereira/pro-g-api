@@ -71,7 +71,13 @@ exports.exerciseRegister = async (req, res) => {
     const id = parseInt(body.id_exercicio);
 
     if (exercicio != undefined && descricao != undefined && treino != undefined){
-        const exist = await exerciseExist(id, exercicio, descricao, link, treino);
+      if(body.id_exercicio != undefined) {
+        console.log("ID: " + body.id_exercicio != undefined)
+        exerciseExist(id, exercicio, descricao, link, treino);
+      } else{
+        insertExercise(exercicio, descricao, link, treino)
+      }
+      
 
     } else if (exercicio === undefined && descricao === undefined && treino === undefined) {
       res.status(403).json({mensagem: "E necessário mais informações para esta requisição"});
