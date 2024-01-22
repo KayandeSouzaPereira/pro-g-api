@@ -94,11 +94,11 @@ exports.exerciseRegister = async (req, res) => {
     }
 
     async function exerciseExistbyNm(exercicio, descricao, link, treino) {
-      connection.query('SELECT * FROM `Exercicios` where nm_exercicios = '+exercicio+' and ds_exercicio = "'+descricao, function(err, results, fields) {
-          if(results.length == 0){
+      connection.query('SELECT * FROM `Exercicios` where nm_exercicios = '+exercicio, function(err, results, fields) {
+          if(results === undefined){
             insertExercise(exercicio, descricao, link, treino)
           }else{
-            res.status(403).json({mensagem: "Nome duplicado"});
+            return res.status(403).json({mensagem: "Nome duplicado"});
           }});
          
   }
