@@ -6,7 +6,7 @@ exports.exerciseListAll = (res) => {
     connection.query(
         'SELECT * FROM `Exercicios`',
         function(err, results, fields) {
-          res.status(200).json({ resultado: results })});
+          return res.status(200).json({ resultado: results })});
 }
 
 exports.exerciseListByNm = (req, res) => {
@@ -17,13 +17,13 @@ exports.exerciseListByNm = (req, res) => {
             'SELECT * FROM `Exercicios` where nm_exercicios = "'+ exercicio + '"',
             function(err, results, fields) {
             if (results.length > 0 ){
-                res.status(200).json({ resultado: results })
+              return res.status(200).json({ resultado: results })
             }else{
-                res.status(500).json({ resultado: "exercício não encontrado" })
+              return res.status(500).json({ resultado: "exercício não encontrado" })
             }
         });
     }else{
-      res.status(500).json({ resultado: "exercício não encontrado" })
+      return res.status(500).json({ resultado: "exercício não encontrado" })
     }
 }
 
@@ -35,9 +35,9 @@ exports.exerciseListByIdTraining = (req, res) => {
           'SELECT idExercicios, nm_exercicios, ds_exercicio, link_exercicio FROM Exercicios inner join Treino_exercicio on Treino_exercicio.exercicio = Exercicios.idExercicios where treino = "'+ idTraining + '"',
           function(err, results, fields) {
           if (results.length > 0 ){
-              res.status(200).json({ resultado: results })
+            return res.status(200).json({ resultado: results })
           }else{
-              res.status(500).json({ resultado: "treinos não encontrado" })
+            return res.status(500).json({ resultado: "treinos não encontrado" })
           }
       });
   }
@@ -51,14 +51,14 @@ exports.exerciseExclude = (req, res) => {
         'Delete FROM `Exercicios` where nm_exercicios = "'+exercicio+'"',
         function(err, results, fields) {
           if(err === null){
-            res.status(200).json({ resultado: "OK" });
+            return res.status(200).json({ resultado: "OK" });
           }
           else{
-            res.status(500).json({ resultado: err });
+            return res.status(500).json({ resultado: err });
           }
         });
     } else {
-      res.status(403).json({mensagem: "E necessário mais informações para esta requisição"});
+      return res.status(403).json({mensagem: "E necessário mais informações para esta requisição"});
     }
 }
 
