@@ -8,7 +8,6 @@ exports.checkSec = (req, res) => {
         connection.query(
             'SELECT * FROM `Auth` WHERE token = "'+Tk+'" AND TIMEDIFF(now(), data_token) < "20:00:00"',
             function(err, results, fields) {
-                console.log(err);
                 if (results != undefined){
                     return true;
                 } else {

@@ -71,8 +71,6 @@ exports.registerTraining = (req, res) => {
   const idTreino = body.idTreino;
 
 
-  console.log("TREINO : ")
-  console.log(treino == undefined );
 
   if (idTreino != undefined){
     return updateTreino(req, res);
@@ -84,16 +82,13 @@ exports.registerTraining = (req, res) => {
 
   if (treino != undefined && descricao != undefined && idUser != undefined){
     connection.query('SELECT * FROM `Treinos` where nm_treinos = "'+treino+'" and id_user ="'+idUser+'"', function(err, results, fields) {
-      console.log(results)
       if(results == undefined || results.length == 0){
         connection.query('INSERT INTO `Treinos` (nm_treinos, ds_treinos, id_user) VALUES ("'+treino+'", "' + descricao + '", ' + idUser + ')', 
         function(err, results, fields) {
-          console.log(results)
           if(err == undefined){
             return res.status(200).json({ resultado: "OK" });
           }
           else{
-            console.log(err);
             return res.status(500).json({ resultado: err });
           }
         
@@ -121,8 +116,6 @@ exports.registerTraining = (req, res) => {
 
   function listaTreinosUsuario(idUser){
     connection.query('SELECT * FROM `Treinos` where id_user = "'+idUser+'"', function(err, results, fields){
-      console.log("LISTA")
-      console.log(results)
         return res.status(200).json({ resultado: results });
     })
   }

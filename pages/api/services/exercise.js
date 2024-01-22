@@ -62,7 +62,7 @@ exports.exerciseExclude = (req, res) => {
     }
 }
 
-exports.exerciseRegister = (req, res) => {
+exports.exerciseRegister = async (req, res) => {
     const body = req.body;
     const exercicio = body.exercicio;
     const descricao = body.descricao;
@@ -71,38 +71,30 @@ exports.exerciseRegister = (req, res) => {
     const id = parseInt(body.id_exercicio);
 
     if (exercicio != undefined && descricao != undefined && treino != undefined){
-        console.log('SELECT * FROM `Exercicios` where idExercicios = '+id)
-        const exist = exerciseExist(id);
-        console.log("existe no banco : " + exist);
-        if ( exist != false){
-          insertExercise(exercicio, descricao, link, treino)
-        }else if(exist === false){
-          console.log("UPDATE")
-          updateExercise(exercicio, descricao, link, id);
-        }
+        const exist = await exerciseExist(id, exercicio, descricao, link, treino);
 
     } else if (exercicio === undefined && descricao === undefined && treino === undefined) {
       res.status(403).json({mensagem: "E necessário mais informações para esta requisição"});
     }
 
-    function exerciseExist(id) {
+    async function exerciseExist(id, exercicio, descricao, link, treino) {
         connection.query('SELECT * FROM `Exercicios` where idExercicios = '+id, function(err, results, fields) {
-            if(results.length === 0){
-                return true;
+            if(results.length == 0){
+              insertExercise(exercicio, descricao, link, treino)
             }else{
-                return false
+              updateExercise(exercicio, descricao, link, id);
             }});
+           
     }
 
     function updateExercise(exercicio, descricao, link, id) {
       connection.query('update `Exercicios` set nm_exercicios = "'+exercicio+'", ds_exercicio = "'+descricao+'", link_exercicio = + "'+link+'" where idExercicios ='+id, 
         function(err, results, fields) {
           if(err === null){
-            console.log("Ok")
-              res.status(200).json({ resultado: "Exercício inserido com treino" });
+              return res.status(200).json({ resultado: "Exercício inserido com treino" });
           }
           else{
-            res.status(500).json({ erro: "Ocorreu um erro no serviço" });
+            return res.status(500).json({ erro: "Ocorreu um erro no serviço" });
           }
         });
   }
@@ -114,14 +106,14 @@ exports.exerciseRegister = (req, res) => {
               if(treino != undefined){
                 connection.query('INSERT INTO `Treino_exercicio` (treino, exercicio) values ("'+treino+'", "'+results.insertId+'")',
                 function (err, results, fields){
-                  res.status(200).json({ resultado: "Exercício inserido com treino" });
+                  return res.status(200).json({ resultado: "Exercício inserido com treino" });
                 });
               }else{
-                res.status(200).json({ resultado: "Exercício inserido sem treino" });
+                return res.status(200).json({ resultado: "Exercício inserido sem treino" });
               }
             }
             else{
-              res.status(500).json({ erro: "Ocorreu um erro no serviço" });
+              return res.status(500).json({ erro: "Ocorreu um erro no serviço" });
             }
           });
     }

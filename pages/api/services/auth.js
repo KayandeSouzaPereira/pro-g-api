@@ -11,7 +11,6 @@ exports.login = (user, pass, token, res) => {
             connection.query(
                 'SELECT * FROM `Auth` WHERE user = "'+user+'" AND pass ="'+pass+'"',
                 function(err, results, fields) {
-                    console.log(err);
                     if (results.length > 0){
                         require('crypto').randomBytes(48, function(err, buffer) {
                             var tk = buffer.toString('hex');
@@ -20,7 +19,6 @@ exports.login = (user, pass, token, res) => {
                             connection.query(
                                 'update `Auth` set token = "'+tk+'", data_token = "'+dt+'" where user = "'+user+'"',
                                 function(err, results, fields) {
-                                    console.log("OK 200");
                                     res.status(200).json({ retorno: "Login Realizado com sucesso",  token: tk})
                                 }
                               );
@@ -39,7 +37,6 @@ exports.login = (user, pass, token, res) => {
        connection.query(
             'SELECT * FROM `Auth` WHERE token = "'+token+'" AND user = "'+user+'" AND TIMEDIFF(now(), data_token) < "20:00:00"',
             function(err, results, fields) {
-                console.log(err);
                 if (results.length > 0){
                     res.status(200).json({ retorno: "Token Confirmado com sucesso"})
                 } else {

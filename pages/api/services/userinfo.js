@@ -36,7 +36,6 @@ exports.userInfoRegister = (req, res) => {
    
     if (  usuario != undefined && altura != undefined && peso != undefined && idade != undefined){
       connection.query('SELECT * FROM `Info_User` where id_user = "'+usuario+'"', function(err, results, fields) {
-        console.log(results);
         if(results.length === 0){
             registerInfoUser(usuario,altura,peso,idade)
         }else{

@@ -12,7 +12,6 @@ export default function handler(req, res) {
     connection.query(
       'SELECT idAuth, user FROM `Auth` WHERE token = "'+Tk+'" AND TIMEDIFF(now(), data_token) < "20:00:00"',
       function(err, results, fields) {
-          console.log(err);
           if (results.length > 0){
              res.status(200).json({retorno: results[0]})
           } else {
