@@ -4,11 +4,12 @@ const connection = mysql.createConnection(connect);
 
 
 exports.checkSec = (req, res) => {
-    function validaTk(Tk){
+    function validaTk(Tk, ip){
         connection.query(
             'SELECT * FROM `Auth` WHERE token = "'+Tk+'" AND TIMEDIFF(now(), data_token) < "20:00:00"',
             function(err, results, fields) {
                 if (results != undefined){
+                    resetIpBrute(ip)
                     return true;
                 } else {
                   updateIpBrute(ip);
@@ -42,14 +43,18 @@ exports.checkSec = (req, res) => {
                   }
               });
       }
+      function resetIpBrute(ip){
+        connection.query('Update `brute_force` set tentativas='+ 0 + ' where ip = "' +ip+'"');
+       }
     
       const token = req.headers['authorization'];
       if (token == undefined ) {
         var ip = req.headers['x-forwarded-for'] ||req.socket.remoteAddress ||null;
         checkBrute(ip)
         updateIpBrute(ip);
+        return res.status(403).json({ retorno: "Token não encontrado"})
       }else{
         checkBrute(ip)
-        validaTk(token.substring(7));
+        validaTk(token.substring(7), ip);
       } 
 }
