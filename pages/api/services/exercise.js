@@ -75,7 +75,7 @@ exports.exerciseRegister = async (req, res) => {
         console.log("ID: " + body.id_exercicio != undefined)
         exerciseExist(id, exercicio, descricao, link, treino);
       } else{
-        insertExercise(exercicio, descricao, link, treino)
+        exerciseExistbyNm(exercicio, descricao, link, treino)
       }
       
 
@@ -93,11 +93,21 @@ exports.exerciseRegister = async (req, res) => {
            
     }
 
+    async function exerciseExistbyNm(exercicio, descricao, link, treino) {
+      connection.query('SELECT * FROM `Exercicios` where nm_exercicios = '+exercicio+' and ds_exercicio = "'+descricao, function(err, results, fields) {
+          if(results.length == 0){
+            insertExercise(exercicio, descricao, link, treino)
+          }else{
+            res.status(403).json({mensagem: "Nome duplicado"});
+          }});
+         
+  }
+
     function updateExercise(exercicio, descricao, link, id) {
       connection.query('update `Exercicios` set nm_exercicios = "'+exercicio+'", ds_exercicio = "'+descricao+'", link_exercicio = + "'+link+'" where idExercicios ='+id, 
         function(err, results, fields) {
           if(err === null){
-              return res.status(200).json({ resultado: "Exercício inserido com treino" });
+              return res.status(200).json({ resultado: "Exercício inserido." });
           }
           else{
             return res.status(500).json({ erro: "Ocorreu um erro no serviço" });
