@@ -15,15 +15,13 @@ export default function handler(req, res) {
   if (req.method === 'GET') {
     const body = req.query;
     const idTraining = body.idTraining;
+    const exercicio = body.exercise;
     if(idTraining != undefined){
       service.exerciseListByIdTraining(req, res);
     }
-    else{
+    else if(exercicio != undefined){
       service.exerciseListByNm(req, res);
     }
-    
-  }else{
-    service.exerciseListAll(res);
   }
 }
 
