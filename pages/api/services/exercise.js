@@ -37,7 +37,7 @@ exports.exerciseListByIdTraining = (req, res) => {
           if (results.length > 0 ){
             return res.status(200).json({ resultado: results })
           }else{
-            return res.status(500).json({ resultado: "treinos não encontrado" })
+            return res.status(200).json({ resultado: "treinos não encontrado" })
           }
       });
   }
