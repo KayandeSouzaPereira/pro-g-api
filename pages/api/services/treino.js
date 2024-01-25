@@ -47,12 +47,15 @@ exports.listTrainingsByNm = (req, res) => {
 }
 exports.trainingExclude = (req, res) => {
   const body = req.body;
-  const treino = body.treino;
+  const treino = body.deleteIdTreino;
+  console.log(treino)
   if ( treino != undefined){
+    
     connection.query(
-      'Delete FROM `Treinos` where nm_treinos = "'+treino+'"',
+      'Delete FROM `Treinos` where idTreinos = "'+treino+'"',
       function(err, results, fields) {
         if(err === null){
+          console.log("delete")
           return res.status(200).json({ resultado: "OK" });
         }
         else{

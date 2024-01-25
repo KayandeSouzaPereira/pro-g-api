@@ -48,6 +48,7 @@ exports.macroRegister = (req, res) => {
                 return res.status(200).json({ resultado: "Macros atualizados." });
             }
             else{
+              console.log(err);
               return res.status(500).json({ erro: "Ocorreu um erro no serviço" });
             }
           });

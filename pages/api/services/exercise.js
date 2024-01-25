@@ -45,10 +45,10 @@ exports.exerciseListByIdTraining = (req, res) => {
 
 exports.exerciseExclude = (req, res) => {
     const body = req.body;
-    const exercicio = body.exercicie;
+    const exercicio = body.deleteIdExercicise;
     if ( training != undefined){
       connection.query(
-        'Delete FROM `Exercicios` where nm_exercicios = "'+exercicio+'"',
+        'Delete FROM `Exercicios` where idExercicise = "'+exercicio+'"',
         function(err, results, fields) {
           if(err === null){
             return res.status(200).json({ resultado: "OK" });
