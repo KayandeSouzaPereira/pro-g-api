@@ -46,7 +46,7 @@ exports.exerciseListByIdTraining = (req, res) => {
 exports.exerciseExclude = (req, res) => {
     const body = req.body;
     const exercicio = body.deleteIdExercicise;
-    if ( training != undefined){
+    if ( exercicio != undefined){
       connection.query(
         'Delete FROM `Exercicios` where idExercicise = "'+exercicio+'"',
         function(err, results, fields) {
@@ -85,7 +85,7 @@ exports.exerciseRegister = async (req, res) => {
 
     async function exerciseExist(id, exercicio, descricao, link, treino) {
         connection.query('SELECT * FROM `Exercicios` where idExercicios = '+id, function(err, results, fields) {
-            if(results.length == 0){
+            if(results.length == 0 ){
               insertExercise(exercicio, descricao, link, treino)
             }else{
               updateExercise(exercicio, descricao, link, id);
@@ -94,10 +94,12 @@ exports.exerciseRegister = async (req, res) => {
     }
 
     async function exerciseExistbyNm(exercicio, descricao, link, treino) {
+      console.log("EXER : " + exercicio)
       connection.query('SELECT * FROM `Exercicios` where nm_exercicios = '+exercicio, function(err, results, fields) {
-          if(results === undefined){
+          if(results === undefined || results.length == 0){
             insertExercise(exercicio, descricao, link, treino)
           }else{
+            console.log(results)
             return res.status(403).json({mensagem: "Nome duplicado"});
           }});
          
