@@ -48,7 +48,7 @@ exports.exerciseExclude = (req, res) => {
     const exercicio = body.deleteIdExercicise;
     if ( exercicio != undefined){
       connection.query(
-        'Delete FROM `Exercicios` where idExercicise = "'+exercicio+'"',
+        'Delete FROM `Exercicios` where idExercicios = '+exercicio,
         function(err, results, fields) {
           if(err === null){
             return res.status(200).json({ resultado: "OK" });
