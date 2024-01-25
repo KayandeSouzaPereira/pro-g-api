@@ -5,10 +5,13 @@ export default function handler(req, res) {
   security.checkSec(req, res);
 
   if (req.method === 'POST') {
-    service.registerExercise(req, res);
-  }
-  if (req.method === 'DELETE') {
-    service.exerciseExclude(req, res);
+    const body = req.body;
+    if(body.idRegistroExercicio){
+      service.exerciseExclude(req, res);
+    }else{
+      service.registerExercise(req, res);
+    }
+    
   }
   if (req.method === 'GET') {
     service.listByNmExercise(req, res);

@@ -26,10 +26,10 @@ exports.listByNmExercise = (req,res) => {
 }
 exports.exerciseExclude = (req,res) => {
     const body = req.body;
-    const usuario = body.usuario;
-    if ( usuario != undefined){
+    const idRegistroExercicio = body.idRegistroExercicio;
+    if ( idRegistroExercicio != undefined){
       connection.query(
-        'Delete FROM `Registro_exercicio` where usuario = "'+usuario+'"',
+        'Delete FROM `Registro_exercicio` where idRegistro_exercicio = '+idRegistroExercicio,
         function(err, results, fields) {
           if(err === null){
             res.status(200).json({ resultado: "OK" });
