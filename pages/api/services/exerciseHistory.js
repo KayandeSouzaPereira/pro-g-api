@@ -10,19 +10,21 @@ exports.listAllExercise = (res) => {
         });
 }
 exports.listByNmExercise = (req,res) => {
-    const body = req.body;
+    
+    const body = req.query;
     const usuario = body.usuario;
     if (usuario != undefined){
-      console.log('SELECT * FROM `Registro_exercicio` where usuario = "'+ usuario + '" limit 10')
       connection.query(
-        'SELECT * FROM `Registro_exercicio` where usuario = "'+ usuario + '" limit 10',
+        'SELECT idRegistro_exercicio, exercicio, Exercicios.nm_exercicios, peso, data, repeticoes, observacao FROM `Registro_exercicio` Inner join Exercicios on Exercicios.idExercicios = Registro_exercicio.exercicio where usuario = "'+ usuario + '" order by idRegistro_exercicio desc limit 10 ',
         function(err, results, fields) {
           if (results != undefined ){
-            res.status(200).json({ resultado: results })
+            return res.status(200).json({ resultado: results })
           }else{
-            res.status(500).json({ resultado: "registro não encontrado" })
+            return res.status(500).json({ resultado: "registro não encontrado" })
           }
         });
+    }else{
+      return res.status(403).json({mensagem: "E necessário mais informações para esta requisição"});
     }
 }
 exports.exerciseExclude = (req,res) => {

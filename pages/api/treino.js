@@ -15,9 +15,9 @@ export default function handler(req, res) {
     }
   }
   
-  if (req.method === 'GET' && req.body != undefined) {
+  if (req.method === 'GET' && req.query != undefined) {
       return service.listTrainingsByNm(req, res);
-  }else if(req.method === 'GET' && req.body == undefined){
+  }else if(req.method === 'GET' && req.query == undefined){
     return service.listAllTrainings(res);
   }
 }

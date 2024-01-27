@@ -72,7 +72,6 @@ exports.exerciseRegister = async (req, res) => {
 
     if (exercicio != undefined && descricao != undefined && treino != undefined){
       if(body.id_exercicio != undefined) {
-        console.log("ID: " + body.id_exercicio != undefined)
         exerciseExist(id, exercicio, descricao, link, treino);
       } else{
         exerciseExistbyNm(exercicio, descricao, link, treino)
@@ -94,12 +93,10 @@ exports.exerciseRegister = async (req, res) => {
     }
 
     async function exerciseExistbyNm(exercicio, descricao, link, treino) {
-      console.log("EXER : " + exercicio)
       connection.query('SELECT * FROM `Exercicios` where nm_exercicios = '+exercicio, function(err, results, fields) {
           if(results === undefined || results.length == 0){
             insertExercise(exercicio, descricao, link, treino)
           }else{
-            console.log(results)
             return res.status(403).json({mensagem: "Nome duplicado"});
           }});
          

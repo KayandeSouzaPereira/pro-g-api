@@ -10,7 +10,7 @@ exports.userListAll = (res) => {
 }
 
 exports.userListByNm = (req, res) => {
-    const body = req.body;
+    const body = req.query;
     const usuario = body.usuario;
     if (usuario != undefined){
       connection.query(
