@@ -13,6 +13,7 @@ exports.listByNmExercise = (req,res) => {
     const body = req.body;
     const usuario = body.usuario;
     if (usuario != undefined){
+      console.log('SELECT * FROM `Registro_exercicio` where usuario = "'+ usuario + '" limit 10')
       connection.query(
         'SELECT * FROM `Registro_exercicio` where usuario = "'+ usuario + '" limit 10',
         function(err, results, fields) {
@@ -55,6 +56,7 @@ exports.registerExercise = (req,res) => {
 
     
     if (  usuario != undefined && exercicio != undefined){
+      
       connection.query('SELECT * FROM `Registro_exercicio` where usuario = "'+usuario+'" AND exercicio= "'+exercicio+'" AND DATEDIFF(data, "'+data+'") = "0"', 
       function(err, results, fields) {
         if(results.length === 0){
