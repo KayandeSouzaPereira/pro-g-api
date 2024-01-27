@@ -54,7 +54,7 @@ exports.registerExercise = (req,res) => {
     data = data.toISOString().slice(0, 19).replace('T', ' ');
 
     
-    if (  usuario != undefined && usuario != undefined){
+    if (  usuario != undefined && exercicio != undefined){
       connection.query('SELECT * FROM `Registro_exercicio` where usuario = "'+usuario+'" AND exercicio= "'+exercicio+'" AND DATEDIFF(data, "'+data+'") = "0"', 
       function(err, results, fields) {
         if(results.length === 0){
