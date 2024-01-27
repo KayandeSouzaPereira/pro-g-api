@@ -64,7 +64,7 @@ exports.registerExercise = (req,res) => {
         if(results.length === 0){
             insertRegister(usuario, exercicio, peso, data, repeticoes, observacao, res);
         }else{
-            res.status(500).json({ resultado: "Já existe registro para este exercício e usuário nas ultimas 24 horas, remova o registro ou atualize ele no proxímo treino." });
+            res.status(200).json({ resultado: "Já existe registro para este exercício e usuário nas ultimas 24 horas, remova o registro ou atualize ele no proxímo treino." });
         }
     });
     } else {
