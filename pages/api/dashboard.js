@@ -11,7 +11,7 @@ export default function handler(req, res) {
     const body = req.query;
     const tipo = body.tipo;
     const usuario = body.usuario
-    if(tipo === "força"){
+    if(tipo === "forca"){
       return service.forca(res, usuario);
     }
     else if(tipo === "presenca"){
