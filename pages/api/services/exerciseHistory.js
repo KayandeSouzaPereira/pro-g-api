@@ -14,7 +14,7 @@ exports.listByNmExercise = (req,res) => {
     const usuario = body.usuario;
     if (usuario != undefined){
       connection.query(
-        'SELECT * FROM `Registro_exercicio` where usuario = "'+ usuario + '"',
+        'SELECT * FROM `Registro_exercicio` where usuario = "'+ usuario + '" limit 10',
         function(err, results, fields) {
           if (results != undefined ){
             res.status(200).json({ resultado: results })

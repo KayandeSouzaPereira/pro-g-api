@@ -15,8 +15,6 @@ export default function handler(req, res) {
   }
   if (req.method === 'GET') {
     service.listByNmExercise(req, res);
-    }else{
-      service.listAllExercise(res);
-    }
+  }
 }
 
