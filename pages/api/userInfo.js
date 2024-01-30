@@ -12,6 +12,13 @@ export default function handler(req, res) {
     service.userInfoDelete(req, res)
   }
   if (req.method === 'GET') {
-    service.userInfoListAll(res);
+    const body = req.query;
+    const usuario = body.user;
+
+    if (usuario){
+      service.userInfoImage(req,res)
+    }else{
+      service.userInfoListAll(res);
+    }
   }
 }
