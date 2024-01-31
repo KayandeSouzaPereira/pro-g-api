@@ -4,7 +4,7 @@ const connection = mysql.createConnection(connect);
 
 exports.presenca = (res, usuario) => {
     connection.query(
-        'SELECT MONTHNAME(data) as "Mes", Count(*) as "treinos" FROM pro_g.Registro_exercicio where data >= now()-interval 3 month and usuario = '+usuario+' group by data limit 3',
+        'SELECT data as "Mes", Count(*) as "treinos" FROM pro_g.Registro_exercicio where data >= now()-interval 3 month and usuario = '+usuario+' group by data limit 3',
         function(err, results, fields) {
             if(results){
                 return res.status(200).json({ resultado: results })
