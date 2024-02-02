@@ -63,7 +63,7 @@ exports.userInfoRegister = (req, res) => {
     }
 
     function registerInfoUser(usuario,altura,peso,idade,image){
-        connection.query('INSERT INTO `Info_User` (id_user, Altura, Peso, Idade, img) VALUES ("'+usuario+'", "'+altura+'", "'+peso+'", "'+idade+'"'+'", "'+image+'")', 
+        connection.query('INSERT INTO `Info_User` (id_user, Altura, Peso, Idade, img) VALUES ('+usuario+', "'+altura+'", '+peso+', '+idade+', "'+image+'")', 
           function(err, results, fields) {
             if(err === null){
               res.status(200).json({ resultado: "OK" });
