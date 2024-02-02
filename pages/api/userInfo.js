@@ -15,18 +15,26 @@ export default function handler(req, res) {
     service.userInfoRegister(req, res);
   }
   if (req.method === 'DELETE') {
-    service.userInfoDelete(req, res)
+    return service.userInfoDelete(req, res)
   }
   if (req.method === 'GET') {
     const body = req.query;
     const usuario = body.user;
+    const img = body.imgTipo;
 
-    security.checkTKSet(usuario, req);
-
-    if (usuario){
-      service.userInfoImage(req,res)
-    }else{
-      service.userInfoListAll(res);
+    let checktk = security.checkTKSet(usuario, req);
+    if (checktk == false){
+      return res.status(403).json({ retorno: "Token Invalido"});
+    }
+    if (img != undefined){
+      return service.userInfoImage(req,res)
+    }
+    if (usuario && img == undefined){
+      console.log("CHECK USUARIO")
+      return service.userInfo(res, usuario);
+    }
+    else{
+      return service.userInfoListAll(res);
     }
   }
 }

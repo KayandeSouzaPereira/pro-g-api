@@ -18,7 +18,7 @@ exports.checkTKSet = (user, req) => {
       });
 }
 
-exports.checkSec = (req, res, isAuth) => {
+exports.checkSec = (req, res) => {
     function validaTk(Tk, ip){
         connection.query(
             'SELECT * FROM `Auth` WHERE token = "'+Tk+'" AND TIMEDIFF(now(), data_token) < "20:00:00"',
@@ -68,10 +68,6 @@ exports.checkSec = (req, res, isAuth) => {
         var ip = req.headers['x-forwarded-for'] ||req.socket.remoteAddress ||null;
         checkBrute(ip)
         updateIpBrute(ip);
-        if (isAuth === undefined){
-          return res.status(403).json({ retorno: "Token não encontrado"})
-        }
-        
       }else{
           validaTk(token.substring(7), ip);
       }
