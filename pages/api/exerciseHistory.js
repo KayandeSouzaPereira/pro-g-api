@@ -9,6 +9,8 @@ export default function handler(req, res) {
     if(body.idRegistroExercicio){
       service.exerciseExclude(req, res);
     }else{
+      const usuario = body.usuario;
+      let tokenAprov = security.checkTKSet(usuario, req);
       service.registerExercise(req, res);
     }
     

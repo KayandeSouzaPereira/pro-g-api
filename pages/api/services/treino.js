@@ -9,7 +9,7 @@ exports.listAllTrainings = (res) => {
       res.status(200).json({ resultado: results })});
 }
 exports.listTrainingsByNm = (req, res) => {
-  const body = req.body;
+  const body = req.query;
   const treino = body.treino;
   const usuario = body.usuario;
 

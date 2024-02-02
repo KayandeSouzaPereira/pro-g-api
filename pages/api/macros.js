@@ -13,6 +13,7 @@ export default function handler(req, res) {
     if (req.method === 'DELETE') {
         const body = req.query;
         const idUser = body.idUser;
+        security.checkTKSet(idUser, req);
         if(idUser != undefined){
             service.macroExclude(req, res, idUser);
         }

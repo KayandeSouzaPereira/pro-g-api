@@ -6,13 +6,37 @@ export default function handler(req, res) {
   security.checkSec(req, res);
 
   if (req.method === 'POST') {
-    service.userRegister(req, res);
+    const body = req.body;
+    const usuario = body.usuario;
+
+    const check = security.checkTKSet(usuario, req)
+    if(!check){
+      return res.status(403).json({ retorno: "Token Invalido"});
+    }else{
+      service.userRegister(req, res);
+    }
   }
   if (req.method === 'DELETE') {
-    service.userDelete(req, res);
+    const body = req.body;
+    const usuario = body.usuario;
+
+    const check = security.checkTKSet(usuario, req)
+    if(!check){
+      return res.status(403).json({ retorno: "Token Invalido"});
+    }else{
+      return service.userDelete(req, res);
+    }
   }
   if (req.method === 'GET') {
-    service.userListByNm(req, res);
+    const body = req.query;
+    const usuario = body.usuario;
+
+    const check = security.checkTKSet(usuario, req)
+    if(!check){
+      return res.status(403).json({ retorno: "Token Invalido"});
+    }else{
+      service.userListByNm(req, res);
+    }
   }else{
     service.userListAll(res);
   }

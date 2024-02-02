@@ -3,6 +3,21 @@ const connect = process.env.DB_CONNECTION;
 const connection = mysql.createConnection(connect);
 
 
+exports.checkTKSet = (user, req) => {
+  const TK = req.headers['authorization'];
+  var ip = req.headers['x-forwarded-for'] ||req.socket.remoteAddress ||null;
+    connection.query(
+      'SELECT * FROM `Auth` WHERE token = "'+TK+'" AND user = "'+user+'" AND TIMEDIFF(now(), data_token) < "20:00:00"',
+      function(err, results, fields) {
+          if (results.length > 0){
+              return true
+          } else {
+            updateIpBrute(ip)
+            return false
+          }
+      });
+}
+
 exports.checkSec = (req, res, isAuth) => {
     function validaTk(Tk, ip){
         connection.query(
@@ -43,6 +58,7 @@ exports.checkSec = (req, res, isAuth) => {
                   }
               });
       }
+      
       function resetIpBrute(ip){
         connection.query('Update `brute_force` set tentativas='+ 0 + ' where ip = "' +ip+'"');
        }
@@ -57,7 +73,6 @@ exports.checkSec = (req, res, isAuth) => {
         }
         
       }else{
-        checkBrute(ip)
-        validaTk(token.substring(7), ip);
-      } 
+          validaTk(token.substring(7), ip);
+      }
 }
