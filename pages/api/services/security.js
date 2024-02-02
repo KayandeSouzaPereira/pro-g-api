@@ -4,6 +4,20 @@ const connection = mysql.createConnection(connect);
 
 
 exports.checkTKSet = (user, req) => {
+  function updateIpBrute(ip){
+    connection.query(
+        'SELECT tentativas FROM `brute_force` WHERE ip = "'+ip+'"',
+        function(err, results, fields) {
+            if (results != undefined){
+                let nValue = results[0].tentativas + 1;
+                connection.query('Update `brute_force` set tentativas='+ nValue + ' where ip = "' +ip+'"');
+            } else {
+                connection.query('INSERT into `brute_force` (ip, tentativas) values ("'+ip+'", '+1+')')
+            }
+        });
+}
+
+
   const TK = req.headers['authorization'];
   var ip = req.headers['x-forwarded-for'] ||req.socket.remoteAddress ||null;
     connection.query(

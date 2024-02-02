@@ -18,7 +18,6 @@ exports.userInfo = (res, usuario) => {
         'SELECT * FROM `Info_User` where id_user = '+ usuario,
         function(err, results, fields) {
           if (results.length > 0 ){
-            console.log("RESULTADO : " + JSON.stringify(results))
             return res.status(200).json({ resultado: results[0] })
           }else{
             return res.status(500).json({ resultado: "informações não encontradadas" })

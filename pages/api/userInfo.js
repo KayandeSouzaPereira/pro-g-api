@@ -30,7 +30,6 @@ export default function handler(req, res) {
       return service.userInfoImage(req,res)
     }
     if (usuario && img == undefined){
-      console.log("CHECK USUARIO")
       return service.userInfo(res, usuario);
     }
     else{
