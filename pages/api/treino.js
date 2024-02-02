@@ -18,7 +18,7 @@ export default function handler(req, res) {
       const idUser = body.usuario;
 
       const check = security.checkTKSet(idUser, req)
-      if(!check){
+      if(check === false){
         return res.status(403).json({ retorno: "Token Invalido"});
       }else{
         return service.registerTraining(req, res);
@@ -33,7 +33,7 @@ export default function handler(req, res) {
 
       const check = security.checkTKSet(usuario, req);
 
-      if(!check){
+      if(check === false){
         return res.status(403).json({ retorno: "Token Invalido"});
       }else{
         return service.listTrainingsByNm(req, res);
