@@ -37,12 +37,3 @@ export default function handler(req, res) {
     }
   }
 }
-
-export const config = {
-  api: {
-    bodyParser: {
-      sizeLimit: '1mb',
-    },
-  },
-  maxDuration: 10,
-}
