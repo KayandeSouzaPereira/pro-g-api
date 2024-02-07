@@ -6,6 +6,14 @@ const custo = 10;
 
 exports.login = async (user, pass, token, res) => {
 
+    function getId(user){
+        connection.query('SELECT Id from User Where user = ?', [user], 
+        function (err, results, field){
+            if (results.length > 0){
+                return results;
+            }
+        })
+    }
    
     
     if(token == undefined){
@@ -33,7 +41,8 @@ exports.login = async (user, pass, token, res) => {
                                             connection.query(
                                                 'update `Auth` set token = "'+tk+'", data_token = "'+dt+'" where user = "'+user+'"',
                                                 function(err, results, fields) {
-                                                    res.status(200).json({ retorno: "Login Realizado com sucesso",  token: tk})
+                                                    let id = getId(user);
+                                                    res.status(200).json({ retorno: "Login Realizado com sucesso",  token: tk, id: id})
                                                 }
                                             );
                                             
