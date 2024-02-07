@@ -21,10 +21,10 @@ export default function handler(req, res) {
     const usuario = body.usuario;
 
     if(usuario != null){
-      if(!security.checkTKSet(usuario, req)){
+      if(security.checkTKSet(usuario, req) === false){
         return res.status(403).json({ retorno: "Token Invalido"})
       }else{
-        service.byUserExercise(res, user);
+        service.byUserExercise(res, usuario);
       }
     }
 
