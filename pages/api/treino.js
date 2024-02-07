@@ -31,6 +31,7 @@ export default function handler(req, res) {
       const body = req.query;
       const usuario = body.usuario;
 
+    
       const check = security.checkTKSet(usuario, req);
 
       if(check === false){
