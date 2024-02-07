@@ -16,7 +16,18 @@ export default function handler(req, res) {
     
   }
   if (req.method === 'GET') {
-    service.listByNmExercise(req, res);
+
+    const body = req.query;
+    const usuario = body.usuario;
+
+    if(usuario != null){
+      if(!security.checkTKSet(usuario, req)){
+        return res.status(403).json({ retorno: "Token Invalido"})
+      }else{
+        service.byUserExercise(res, user);
+      }
+    }
+
   }
 }
 

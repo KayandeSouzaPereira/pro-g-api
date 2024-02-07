@@ -9,6 +9,17 @@ exports.listAllExercise = (res) => {
           res.status(200).json({ resultado: results })
         });
 }
+
+
+exports.byUserExercise = (res, user) => {
+  connection.query(
+      'SELECT * FROM `Registro_exercicio` where usuario = '+ user,
+      function(err, results, fields) {
+        res.status(200).json({ resultado: results })
+      });
+}
+
+
 exports.listByNmExercise = (req,res) => {
     
     const body = req.query;
