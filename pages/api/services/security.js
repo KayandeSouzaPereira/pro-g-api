@@ -2,8 +2,6 @@ const mysql = require('mysql2');
 const connect = process.env.DB_CONNECTION;
 const connection = mysql.createConnection(connect);
 
-
-
 exports.checkTKSet = (user, req) => {
   function updateIpBrute(ip){
     connection.query(
