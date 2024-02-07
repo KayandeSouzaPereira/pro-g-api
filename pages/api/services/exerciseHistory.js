@@ -4,7 +4,7 @@ const connection = mysql.createConnection(connect);
 
 exports.listAllExercise = (res) => {
     connection.query(
-        'SELECT * FROM `Registro_exercicio`',
+        'SELECT * FROM `Registro_exercicio` where 1=1',
         function(err, results, fields) {
           res.status(200).json({ resultado: results })
         });
