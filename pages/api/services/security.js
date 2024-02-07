@@ -16,6 +16,9 @@ exports.checkTKSet = (user, req) => {
         });
 }
 
+  function resetIpBrute(ip){
+    connection.query('Update `brute_force` set tentativas='+ 0 + ' where ip = "' +ip+'"');
+  }
 
   const TK = req.headers['authorization'];
   var ip = req.headers['x-forwarded-for'] ||req.socket.remoteAddress ||null;
@@ -23,12 +26,18 @@ exports.checkTKSet = (user, req) => {
       'SELECT * FROM `Auth` WHERE token = "'+TK+'" AND user = "'+user+'" AND TIMEDIFF(now(), data_token) < "20:00:00"',
       function(err, results, fields) {
           if (results.length > 0){
+              resetIpBrute(ip);
               return true
           } else {
             updateIpBrute(ip)
             return false
           }
       });
+}
+
+exports.resetAtaque = (req) => {
+  var ip = req.headers['x-forwarded-for'] ||req.socket.remoteAddress ||null;
+  connection.query('Update `brute_force` set tentativas='+ 0 + ' where ip = "' +ip+'"')
 }
 
 exports.checkSec = (req, res) => {
