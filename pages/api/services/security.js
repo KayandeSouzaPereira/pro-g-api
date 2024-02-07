@@ -55,8 +55,8 @@ exports.checkSec = (req, res) => {
             });
       }
       function checkBrute(ip){
-        let query = 'SELECT tentativas FROM `brute_force` WHERE ip = "'+ip+'"';
-        connection.query(query,
+        let query = 'SELECT tentativas FROM `brute_force` WHERE ip = ? ';
+        connection.query(query, [ip],
         function(err, results, fields) {
             if(results != undefined){
                 if(results[0].tentativas > 20){
