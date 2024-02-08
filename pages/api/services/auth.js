@@ -28,8 +28,7 @@ exports.login = async (user, pass, token, res) => {
                         const encryptedPassword = results[0].pass;
                         const checkPass = await bcrypt.compare(pass, encryptedPassword);
                         if (checkPass === false){
-                            return res.status(403).json({ mensagem: "Senha Invalida" })
-                            
+                            return res.status(403).json({ mensagem: "Senha Invalida" }) 
                         } else if(checkPass === true){
                    
                             connection.query(
