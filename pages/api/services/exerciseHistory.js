@@ -13,7 +13,7 @@ exports.listAllExercise = (res) => {
 
 exports.byUserExercise = (res, user) => {
   connection.query(
-      'SELECT * FROM `Registro_exercicio` where usuario = '+ user,
+    'SELECT idRegistro_exercicio, exercicio, Exercicios.nm_exercicios, peso, data, repeticoes, observacao FROM `Registro_exercicio` Inner join Exercicios on Exercicios.idExercicios = Registro_exercicio.exercicio where usuario = "'+ user + '" order by idRegistro_exercicio desc limit 10 ',
       function(err, results, fields) {
         res.status(200).json({ resultado: results })
       });

@@ -11,7 +11,6 @@ exports.cadastro = async (req, res) => {
     const encryptedPassword = await bcrypt.hash(pass, custo);
     if(user==undefined && pass==undefined){
         res.status(500).json({ mensagem: "Usuário vazio" })
-        
     }else{
         connection.query(
             'SELECT * FROM `Auth` WHERE user = "'+user+'" AND pass ="'+encryptedPassword+'"',
