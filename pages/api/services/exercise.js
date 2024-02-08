@@ -63,6 +63,10 @@ exports.exerciseExclude = (req, res) => {
 }
 
 exports.exerciseRegister = async (req, res) => {
+
+
+  console.log("CHECK RG")
+
     const body = req.body;
     const exercicio = body.exercicio;
     const descricao = body.descricao;
@@ -94,12 +98,18 @@ exports.exerciseRegister = async (req, res) => {
     }
 
     async function exerciseExistbyNm(exercicio, descricao, link, treino, usuario) {
-      connection.query("SELECT * FROM `Exercicios` inner join Treino_exercicio on Treino_exercicio.exercicio = Exercicios.idExercicios inner join Treinos on Treinos.idTreinos = Treino_exercicio.treino where nm_exercicios ="+exercicio+" and Treinos.id_user = "+usuario, 
+      console.log("CHECK NM")
+      console.log(usuario)
+      console.log(exercicio)
+      connection.query('SELECT * FROM `Exercicios` inner join Treino_exercicio on Treino_exercicio.exercicio = Exercicios.idExercicios inner join Treinos on Treinos.idTreinos = Treino_exercicio.treino where nm_exercicios ="'+exercicio+'" and Treinos.id_user = '+usuario, 
       function(err, results, fields) {
           if(results === undefined || results.length == 0){
-            insertExercise(exercicio, descricao, link, treino)
+            console.log("CHECK INSERT")
+            console.log(results)
+            console.log(results.length)
+            //insertExercise(exercicio, descricao, link, treino)
           }else{
-            return res.status(403).json({mensagem: "Nome duplicado"});
+            return res.status(403).json({mensagem: "Exercício duplicado"});
           }});
          
   }
