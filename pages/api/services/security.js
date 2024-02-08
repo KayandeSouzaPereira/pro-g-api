@@ -90,7 +90,7 @@ exports.checkSec = (req, res) => {
         var ip = req.headers['x-forwarded-for'] ||req.socket.remoteAddress ||null;
         checkBrute(ip)
         updateIpBrute(ip);
-      }else{
+      }else if(token != undefined){
           validaTk(token.substring(7), ip);
       }
 }
