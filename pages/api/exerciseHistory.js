@@ -25,7 +25,6 @@ export default function handler(req, res) {
         return res.status(403).json({ retorno: "Token Invalido"})
       }else{
         service.byUserExercise(res, usuario);
-        
       }
     }
 
