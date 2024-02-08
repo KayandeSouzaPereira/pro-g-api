@@ -1,36 +1,52 @@
-# Olá esta é a API do Pro-G.
 
-Um pequeno projeto focado em facilitar no meu hobbie atual em musculação. 
+# Pro-Trainer
 
-A ideia atual e registrar, comparar e compartilhar dados sobre meus treinos e auxiliar outras pessoas com o mesmo objetivo. 
+Um app de auxilio para rotina fitness. 
 
-## Parte tecníca 
+Seu objetivo e ajudar o usuario a ver resultados de seus treinos atraves da apresentação dos seus registros.
 
-Sim isso é um projeto em [Next.js](https://nextjs.org/) projeto iniciado com o comando [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Para iniciar ele e necessário,
+## Demonstração
 
-primeiro, iniciar o servidor de desenvolvimento:
+EM BREVE
+
+
+## Stack utilizada
+
+**Front-end:**
+
+- React-Native
+- Expo
+
+**Back-end:** 
+
+- Node.js
+- Next.js
+- MySql
+
+
+## Funcionalidades
+
+- Autenticação por Login.
+- Criação de Usuario.
+- Apresentação de Video com "Embed" do Youtube.
+- Apresentação de parte dos dados coletados em graficos.
+- Criação de Regitros.
+
+
+## Instalação local
+
+Instale Pro-G e rode de maneira local.
 
 ```bash
 npm run dev
 # or
 yarn dev
 ```
+    
+## Autores
 
-abrir [http://localhost:3000](http://localhost:3000) no seu navegador de preferência para ver o resultado.
+- [@kayandesouza](https://github.com/KayandeSouzaPereira) Desenvolvedor do App
 
-Você pode começar modificando a pagina `pages/index.js`.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) podem ser acessadas pelo link [http://localhost:3000/api/**]
 
-Os arquivos em `pages/api` são mapeados `/api/*`. [API routes](https://nextjs.org/docs/api-routes/introduction).
-
-## Saiba mais
-
-Para saber mais sobre Next.js, de uma olhada nas seguintes documentações:
-
-- [Documentação Next.js ](https://nextjs.org/docs) - saiba mais sobre Next.js features e API.
-- [Aprenda Next.js](https://nextjs.org/learn) - tutorial interativo Next.js.
-
-Veja também [O repositorio Next.js no GitHub](https://github.com/vercel/next.js/)
