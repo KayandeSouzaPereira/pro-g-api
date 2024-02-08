@@ -68,13 +68,14 @@ exports.exerciseRegister = async (req, res) => {
     const descricao = body.descricao;
     const link = body.link;
     const treino = body.treino;
+    const usuario = body.usuario;
     const id = parseInt(body.id_exercicio);
 
-    if (exercicio != undefined && descricao != undefined && treino != undefined){
+    if (exercicio != undefined && descricao != undefined && treino != undefined && usuario != undefined){
       if(body.id_exercicio != undefined) {
         exerciseExist(id, exercicio, descricao, link, treino);
       } else{
-        exerciseExistbyNm(exercicio, descricao, link, treino)
+        exerciseExistbyNm(exercicio, descricao, link, treino, usuario)
       }
       
 
@@ -92,8 +93,9 @@ exports.exerciseRegister = async (req, res) => {
            
     }
 
-    async function exerciseExistbyNm(exercicio, descricao, link, treino) {
-      connection.query('SELECT * FROM `Exercicios` where nm_exercicios = '+exercicio, function(err, results, fields) {
+    async function exerciseExistbyNm(exercicio, descricao, link, treino, usuario) {
+      connection.query("SELECT * FROM `Exercicios` inner join Treino_exercicio on Treino_exercicio.exercicio = Exercicios.idExercicios inner join Treinos on Treinos.idTreinos = Treino_exercicio.treino where nm_exercicios ="+exercicio+" and Treinos.id_user = "+usuario, 
+      function(err, results, fields) {
           if(results === undefined || results.length == 0){
             insertExercise(exercicio, descricao, link, treino)
           }else{
