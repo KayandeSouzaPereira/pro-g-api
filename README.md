@@ -31,7 +31,7 @@ EM BREVE
 - Criação de Usuario.
 - Apresentação de Video com "Embed" do Youtube.
 - Apresentação de parte dos dados coletados em graficos.
-- Criação de Regitros.
+- Criação de Registros.
 
 
 ## Instalação local
