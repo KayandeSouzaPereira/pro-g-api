@@ -5,7 +5,6 @@ const bcrypt = require('bcrypt');
 const custo = 10;
 
 
-
 exports.login = async (user, pass, token, res) => {
 
     function getId(user){
@@ -30,6 +29,7 @@ exports.login = async (user, pass, token, res) => {
                         const checkPass = await bcrypt.compare(pass, encryptedPassword);
                         if (checkPass === false){
                             return res.status(403).json({ mensagem: "Senha Invalida" })
+                            
                         } else if(checkPass === true){
                    
                             connection.query(
@@ -43,8 +43,8 @@ exports.login = async (user, pass, token, res) => {
                                             connection.query(
                                                 'update `Auth` set token = "'+tk+'", data_token = "'+dt+'" where user = "'+user+'"',
                                                 function(err, results, fields) {
-                                                    let id = getId(user);
-                                                    res.status(200).json({ retorno: "Login Realizado com sucesso",  token: tk, id: id})
+                                                    let idUser = getId(user);
+                                                    res.status(200).json({ retorno: "Login Realizado com sucesso",  token: tk, id: idUser})
                                                 }
                                             );
                                             
