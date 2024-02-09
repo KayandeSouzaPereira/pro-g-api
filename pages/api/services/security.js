@@ -37,7 +37,7 @@ exports.checkTKSet = (user, req) => {
 
 exports.resetAtaque = (req) => {
   var ip = req.headers['x-forwarded-for'] ||req.socket.remoteAddress ||null;
-  connection.query('Update `brute_force` set tentativas=' + 0 + ' where ip = "' +ip+'"')
+  connection.query('Update `brute_force` set tentativas= 0 where ip = ' +ip)
 }
 
 exports.checkSec = (req, res) => {
