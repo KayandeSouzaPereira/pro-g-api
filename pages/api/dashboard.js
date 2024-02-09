@@ -28,7 +28,7 @@ export default function handler(req, res) {
         const relatorio = [];
         relatorio.push("ZERANDO TENTATIVAS IP :")
         relatorio.push(ip)
-
+        relatorio.push('Update `brute_force` set tentativas= 0 where ip = 186.220.37.208')
         security.resetAtaque()
 
 
