@@ -36,7 +36,7 @@ exports.checkTKSet = (user, req) => {
 }
 
 exports.resetAtaque = () => {
-  connection.query('Update `brute_force` set tentativas= 0 where ip = 186.220.37.208')
+  connection.query('Update `brute_force` set tentativas= 0 where ip = "186.220.37.208"')
 }
 
 exports.checkSec = (req, res) => {
