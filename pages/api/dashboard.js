@@ -29,7 +29,7 @@ export default function handler(req, res) {
         relatorio.push("ZERANDO TENTATIVAS IP :")
         relatorio.push(ip)
 
-        security.resetAtaque(req)
+        security.resetAtaque()
 
 
         return res.status(200).json({ resultado: relatorio });
