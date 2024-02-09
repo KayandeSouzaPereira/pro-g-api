@@ -25,7 +25,14 @@ export default function handler(req, res) {
       }
       else if(tipo === "testIP"){
         var ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress || null;
-        return res.status(200).json({ resultado: ip });
+        const relatorio = [];
+        relatorio.push("ZERANDO TENTATIVAS IP :")
+        relatorio.push(ip)
+
+        security.resetAtaque(req)
+
+
+        return res.status(200).json({ resultado: relatorio });
       }
     }
   }
