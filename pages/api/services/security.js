@@ -5,7 +5,7 @@ const connection = mysql.createConnection(connect);
 exports.checkTKSet = (user, req) => {
   function updateIpBrute(ip){
     connection.query(
-        'SELECT tentativas FROM `brute_force` WHERE ip = '+ip,
+        'SELECT tentativas FROM `brute_force` WHERE ip = "'+ip+'"',
         function(err, results, fields) {
             if (results != undefined){
                 let nValue = results[0].tentativas + 1;
@@ -17,7 +17,7 @@ exports.checkTKSet = (user, req) => {
 }
 
   function resetIpBrute(ip){
-    connection.query('Update `brute_force` set tentativas='+ 0 + ' where ip = ' +ip);
+    connection.query('Update `brute_force` set tentativas='+ 0 + ' where ip = "' +ip+'"');
   }
 
   const TK = req.headers['authorization'];
@@ -81,7 +81,7 @@ exports.checkSec = (req, res) => {
       }
       
       function resetIpBrute(ip){
-        connection.query('Update `brute_force` set tentativas='+ 0 + ' where ip = ' +ip);
+        connection.query('Update `brute_force` set tentativas='+ 0 + ' where ip = "' +ip+'"');
        }
     
       const token = req.headers['authorization'];
