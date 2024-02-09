@@ -7,11 +7,14 @@ const custo = 10;
 
 exports.login = async (user, pass, token, res) => {
 
-    function getId(user){
-        connection.query('SELECT Id from User Where user = ?', [user], 
+    async function getId(user){
+        connection.query('SELECT Id from User Where UserNm = "'+user+'"', 
         function (err, results, field){
-            if (results.length > 0){
-                return results;
+            if (results != undefined){
+                console.log(results[0].Id);
+                return results[0].Id;
+            }else{
+                return undefined;
             }
         })
     }
@@ -33,7 +36,7 @@ exports.login = async (user, pass, token, res) => {
                    
                             connection.query(
                                 'SELECT * FROM `Auth` WHERE user = "'+user+'"',
-                                function(err, results, fields) {
+                                async function(err, results, fields) {
                                     if (results.length > 0){
                                         require('crypto').randomBytes(48, function(err, buffer) {
                                             var tk = buffer.toString('hex');
@@ -41,9 +44,16 @@ exports.login = async (user, pass, token, res) => {
                                             var dt = dt.toISOString().slice(0, 19).replace('T', ' ');
                                             connection.query(
                                                 'update `Auth` set token = "'+tk+'", data_token = "'+dt+'" where user = "'+user+'"',
-                                                function(err, results, fields) {
-                                                    let idUser = getId(user);
-                                                    res.status(200).json({ retorno: "Login Realizado com sucesso",  data : {token: tk, id: idUser}})
+                                                async function(err, results, fields) {
+                                                    connection.query('SELECT Id from User Where UserNm = "'+user+'"', 
+                                                    function (err, results, field){
+                                                        if (results != undefined){
+                                                            res.status(200).json({ retorno: "Login Realizado com sucesso",  token: tk, id: results[0].Id})
+                                                        }else{
+                                                            res.status(200).json({ retorno: "Login Realizado com sucesso",  dtoken: tk, id: idUser})
+                                                        }
+                                                    })
+                                                    
                                                 }
                                             );
                                             
