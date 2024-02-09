@@ -43,7 +43,7 @@ exports.login = async (user, pass, token, res) => {
                                                 'update `Auth` set token = "'+tk+'", data_token = "'+dt+'" where user = "'+user+'"',
                                                 function(err, results, fields) {
                                                     let idUser = getId(user);
-                                                    res.status(200).json({ retorno: "Login Realizado com sucesso",  token: tk, id: idUser})
+                                                    res.status(200).json({ retorno: "Login Realizado com sucesso",  data : {token: tk, id: idUser}})
                                                 }
                                             );
                                             
