@@ -9,9 +9,9 @@ exports.checkTKSet = (user, req) => {
         function(err, results, fields) {
             if (results != undefined){
                 let nValue = results[0].tentativas + 1;
-                connection.query('Update `brute_force` set tentativas='+ nValue + ' where ip = ' +ip);
+                connection.query('Update `brute_force` set tentativas='+ nValue + ' where ip = "' +ip+ '"');
             } else {
-                connection.query('INSERT into `brute_force` (ip, tentativas) values ('+ip+', '+1+')')
+                connection.query('INSERT into `brute_force` (ip, tentativas) values ("'+ip+'", '+1+')')
             }
         });
 }
@@ -73,7 +73,7 @@ exports.checkSec = (req, res) => {
               function(err, results, fields) {
                   if (results != undefined){
                       let nValue = results[0].tentativas + 1;
-                      connection.query('Update `brute_force` set tentativas='+ nValue + ' where ip = ' +ip);
+                      connection.query('Update `brute_force` set tentativas='+ nValue + ' where ip = "' +ip + '"');
                   } else {
                       connection.query('INSERT into `brute_force` (ip, tentativas) values ('+ip+', '+1+')')
                   }
