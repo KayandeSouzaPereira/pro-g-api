@@ -21,6 +21,8 @@ export default function handler(req, res) {
     if (req.method === 'GET') {
       const body = req.query;
       const idUser = body.idUser;
+
+      security.checkTKSet(idUser, req)
       if(idUser != undefined){
         service.getById(req, res, idUser);
       }else{
