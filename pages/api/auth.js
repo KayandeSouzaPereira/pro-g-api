@@ -10,7 +10,6 @@ export default function handler(req, res) {
                 const pass = body.password;
                 const token = body.token;
                 service.login(user, pass, token, res);
-                
         }  
 }
 
