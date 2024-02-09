@@ -9,15 +9,15 @@ exports.checkTKSet = (user, req) => {
         function(err, results, fields) {
             if (results != undefined){
                 let nValue = results[0].tentativas + 1;
-                connection.query('Update `brute_force` set tentativas='+ nValue + ' where ip = "' +ip+ '"');
+                connection.execute('Update `brute_force` set tentativas='+ nValue + ' where ip = "' +ip+ '"');
             } else {
-                connection.query('INSERT into `brute_force` (ip, tentativas) values ("'+ip+'", '+1+')')
+                connection.execute('INSERT into `brute_force` (ip, tentativas) values ("'+ip+'", '+1+')')
             }
         });
 }
 
   function resetIpBrute(ip){
-    connection.query('Update `brute_force` set tentativas='+ 0 + ' where ip = "' +ip+'"');
+    connection.execute('Update `brute_force` set tentativas='+ 0 + ' where ip = "' +ip+'"');
   }
 
   const TK = req.headers['authorization'];
@@ -35,8 +35,19 @@ exports.checkTKSet = (user, req) => {
       });
 }
 
-exports.resetAtaque = () => {
-  connection.query('Update `brute_force` set tentativas= 0 where ip = "186.220.37.208"')
+exports.resetAtaque = async () => {
+  try {
+    const sql = 'Update `brute_force` set tentativas= 0 where ip = "186.220.37.208"';
+  
+    const [result, fields] = await connection.execute(sql);
+  
+    console.log(result);
+    console.log(fields);
+    return true;
+  } catch (err) {
+    console.log(err);
+    return false;
+  }
 }
 
 exports.checkSec = (req, res) => {
@@ -81,7 +92,7 @@ exports.checkSec = (req, res) => {
       }
       
       function resetIpBrute(ip){
-        connection.query('Update `brute_force` set tentativas='+ 0 + ' where ip = "' +ip+'"');
+        connection.execute('Update `brute_force` set tentativas='+ 0 + ' where ip = "' +ip+'"');
        }
     
       const token = req.headers['authorization'];

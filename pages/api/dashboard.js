@@ -1,7 +1,7 @@
 const security = require('./services/security');
 const service = require("./services/dashboard");
 
-export default function handler(req, res) {
+export default async function handler(req, res) {
 
   security.checkSec(req, res);
  
@@ -25,14 +25,8 @@ export default function handler(req, res) {
       }
       else if(tipo === "testIP"){
         var ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress || null;
-        const relatorio = [];
-        relatorio.push("ZERANDO TENTATIVAS IP :")
-        relatorio.push(ip)
-        relatorio.push('Update `brute_force` set tentativas= 0 where ip = "186.220.37.208"')
-        security.resetAtaque()
-
-
-        return res.status(200).json({ resultado: relatorio });
+        const result = await security.resetAtaque();
+        return res.status(200).json({ resultado: result });
       }
     }
   }
