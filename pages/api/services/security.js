@@ -5,19 +5,19 @@ const connection = mysql.createConnection(connect);
 exports.checkTKSet = (user, req) => {
   function updateIpBrute(ip){
     connection.query(
-        'SELECT tentativas FROM `brute_force` WHERE ip = "'+ip+'"',
+        'SELECT tentativas FROM `brute_force` WHERE ip = '+ip,
         function(err, results, fields) {
             if (results != undefined){
                 let nValue = results[0].tentativas + 1;
-                connection.query('Update `brute_force` set tentativas='+ nValue + ' where ip = "' +ip+'"');
+                connection.query('Update `brute_force` set tentativas='+ nValue + ' where ip = ' +ip);
             } else {
-                connection.query('INSERT into `brute_force` (ip, tentativas) values ("'+ip+'", '+1+')')
+                connection.query('INSERT into `brute_force` (ip, tentativas) values ('+ip+', '+1+')')
             }
         });
 }
 
   function resetIpBrute(ip){
-    connection.query('Update `brute_force` set tentativas='+ 0 + ' where ip = "' +ip+'"');
+    connection.query('Update `brute_force` set tentativas='+ 0 + ' where ip = ' +ip);
   }
 
   const TK = req.headers['authorization'];
@@ -37,7 +37,7 @@ exports.checkTKSet = (user, req) => {
 
 exports.resetAtaque = (req) => {
   var ip = req.headers['x-forwarded-for'] ||req.socket.remoteAddress ||null;
-  connection.query('Update `brute_force` set tentativas='+ 0 + ' where ip = "' +ip+'"')
+  connection.query('Update `brute_force` set tentativas=' + 0 + ' where ip = "' +ip+'"')
 }
 
 exports.checkSec = (req, res) => {
@@ -74,15 +74,15 @@ exports.checkSec = (req, res) => {
               function(err, results, fields) {
                   if (results != undefined){
                       let nValue = results[0].tentativas + 1;
-                      connection.query('Update `brute_force` set tentativas='+ nValue + ' where ip = "' +ip+'"');
+                      connection.query('Update `brute_force` set tentativas='+ nValue + ' where ip = ' +ip);
                   } else {
-                      connection.query('INSERT into `brute_force` (ip, tentativas) values ("'+ip+'", '+1+')')
+                      connection.query('INSERT into `brute_force` (ip, tentativas) values ('+ip+', '+1+')')
                   }
               });
       }
       
       function resetIpBrute(ip){
-        connection.query('Update `brute_force` set tentativas='+ 0 + ' where ip = "' +ip+'"');
+        connection.query('Update `brute_force` set tentativas='+ 0 + ' where ip = ' +ip);
        }
     
       const token = req.headers['authorization'];
