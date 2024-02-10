@@ -10,6 +10,7 @@ exports.listAllExercise = (res) => {
         });
 }
 
+
 exports.byUserExercise = (res, user) => {
   connection.query(
     'SELECT idRegistro_exercicio, exercicio, Exercicios.nm_exercicios, peso, data, repeticoes, observacao FROM `Registro_exercicio` Inner join Exercicios on Exercicios.idExercicios = Registro_exercicio.exercicio where usuario = "'+ user + '" order by idRegistro_exercicio desc limit 10 ',
