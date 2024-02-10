@@ -19,7 +19,6 @@ exports.byUserExercise = (res, user) => {
       });
 }
 
-
 exports.listByNmExercise = (req,res) => {
     
     const body = req.query;
