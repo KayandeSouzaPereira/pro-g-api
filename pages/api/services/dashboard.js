@@ -1,6 +1,7 @@
 const mysql = require('mysql2');
 const connect = process.env.DB_CONNECTION;
 const connection = mysql.createConnection(connect);
+const security = require('../services/security');
 
 exports.presenca = (res, usuario) => {
     connection.query(

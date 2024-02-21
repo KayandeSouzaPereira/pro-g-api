@@ -18,14 +18,16 @@ export default async function handler(req, res) {
       return res.status(403).json({erro: "TOKEN INVALIDO"});
     }else{
       if(tipo === "forca"){
+        const result = await security.resetAtaque(req);
+        console.log(result);
         return service.forca(res, usuario);
       }
       else if(tipo === "presenca"){
+        const result = await security.resetAtaque(req);
         return service.presenca(res, usuario);
       }
       else if(tipo === "testIP"){
-        var ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress || null;
-        const result = await security.resetAtaque();
+        const result = await security.resetAtaque(req);
         return res.status(200).json({ resultado: result });
       }
     }

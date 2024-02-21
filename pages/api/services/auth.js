@@ -11,7 +11,6 @@ exports.login = async (user, pass, token, res) => {
         connection.query('SELECT Id from User Where UserNm = "'+user+'"', 
         function (err, results, field){
             if (results != undefined){
-                console.log(results[0].Id);
                 return results[0].Id;
             }else{
                 return undefined;

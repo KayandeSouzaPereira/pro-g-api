@@ -7,10 +7,10 @@ exports.checkTKSet = (user, req) => {
     connection.query(
         'SELECT tentativas FROM `brute_force` WHERE ip = "'+ip+'"',
         function(err, results, fields) {
-            if (results != undefined){
+            if (results.length > 0){
                 let nValue = results[0].tentativas + 1;
                 connection.execute('Update `brute_force` set tentativas='+ nValue + ' where ip = "' +ip+ '"');
-            } else {
+            } else if(!ip.includes("::ffff")){
                 connection.execute('INSERT into `brute_force` (ip, tentativas) values ("'+ip+'", '+1+')')
             }
         });
@@ -35,9 +35,10 @@ exports.checkTKSet = (user, req) => {
       });
 }
 
-exports.resetAtaque = async () => {
+exports.resetAtaque = async (req) => {
   try {
-    const sql = 'Update `brute_force` set tentativas= 0 where ip = "186.220.37.208"';
+    var ip = req.headers['x-forwarded-for'] ||req.socket.remoteAddress ||null;
+    const sql = 'Update `brute_force` set tentativas= 0 where ip = "'+ip+'"';
   
     const [result, fields] = await connection.execute(sql);
   
@@ -46,7 +47,7 @@ exports.resetAtaque = async () => {
     return true;
   } catch (err) {
     console.log(err);
-    return false;
+    return true;
   }
 }
 
@@ -80,9 +81,10 @@ exports.checkSec = (req, res) => {
         let query = 'SELECT tentativas FROM `brute_force` WHERE ip = ? ';
         connection.query(query, [ip],
         function(err, results, fields) {
-            if(results != undefined){
+            if(results.length > 0){
                 if(results[0].tentativas > 20){
-                  return res.status(403).json({ Alerta: "IP BLOQUEADO" });
+                  const resp = "IP BLOQUEADO tentativas : " +  results[0].tentativas;
+                  return res.status(403).json({ Alerta: resp });
               }else{
                   return false;
               }
@@ -94,10 +96,10 @@ exports.checkSec = (req, res) => {
           connection.query(
               'SELECT tentativas FROM `brute_force` WHERE ip = "'+ip+'"',
               function(err, results, fields) {
-                  if (results != undefined){
+                  if (results.length > 0){
                       let nValue = results[0].tentativas + 1;
                       connection.execute('Update `brute_force` set tentativas='+ nValue + ' where ip = "' +ip + '"');
-                  } else {
+                  } else if(!ip.includes("::ffff")){
                       connection.execute('INSERT into `brute_force` (ip, tentativas) values ('+ip+', '+1+')')
                   }
               });

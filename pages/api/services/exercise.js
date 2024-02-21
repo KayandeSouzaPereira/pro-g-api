@@ -123,7 +123,6 @@ exports.exerciseRegister = async (req, res) => {
           function(err, results, fields) {
             if(err === null){
               if(treino != undefined){
-                console.log("ID exercicio : " + results.insertId)
                 connection.query('INSERT INTO `Treino_exercicio` (treino, exercicio) values ("'+treino+'", "'+results.insertId+'")',
                 function (err, results, fields){
                   return res.status(200).json({ resultado: "Exercício inserido com treino" });
