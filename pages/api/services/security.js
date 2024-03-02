@@ -100,7 +100,7 @@ exports.checkSec = (req, res) => {
                       let nValue = results[0].tentativas + 1;
                       connection.execute('Update `brute_force` set tentativas='+ nValue + ' where ip = "' +ip + '"');
                   } else if(!ip.includes("::ffff")){
-                      connection.execute('INSERT into `brute_force` (ip, tentativas) values ('+ip+', '+1+')')
+                      connection.execute('INSERT into `brute_force` (ip, tentativas) values ("'+ip+'", '+1+')')
                   }
               });
       }
